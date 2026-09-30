@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ピラティス エクササイズマニュアル</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: 1冊のスタッフ用手帳。上に目次と絞り込み、下に「写真｜説明」の2カラムカードが器具ごとに並ぶ。印刷時は1種目1ページ。 */
+:root {
+  --bg: #f4f6f4;
+  --paper: #ffffff;
+  --ink: #1d2826;
+  --muted: #5b6a66;
+  --rule: #d6ddd9;
+  --accent: #2e6a5c;
+  --accent-soft: #e2eeea;
+  --caution: #8d4a57;
+  --caution-soft: #f6e9ec;
+  --lv1: #2e6a5c;
+  --lv2: #9a6a1c;
+  --lv3: #8d4a57;
+  --font-display: "Zen Old Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --font-body: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131a19; --paper: #1b2422; --ink: #e4ebe8; --muted: #9aaaa5; --rule: #2e3a37;
+    --accent: #7fc0ae; --accent-soft: #22332f; --caution: #e0a0ae; --caution-soft: #34252a;
+    --lv1: #7fc0ae; --lv2: #e0b566; --lv3: #e0a0ae;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #131a19; --paper: #1b2422; --ink: #e4ebe8; --muted: #9aaaa5; --rule: #2e3a37;
+  --accent: #7fc0ae; --accent-soft: #22332f; --caution: #e0a0ae; --caution-soft: #34252a;
+  --lv1: #7fc0ae; --lv2: #e0b566; --lv3: #e0a0ae;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.8;
+  padding-inline: 16px;
+  padding-block: 0 64px;
+}
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+.wrap { max-width: 1040px; margin-inline: auto; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 1.35; margin: 0; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- Header ---------- */
+.masthead { padding-block: 48px 28px; display: grid; gap: 14px; }
+.eyebrow { font-family: var(--font-data); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.masthead h1 { font-size: clamp(28px, 5vw, 42px); }
+.lead { max-width: 62ch; color: var(--muted); margin: 0; }
+
+/* ---------- Intro panels ---------- */
+.intro { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-block: 8px 32px; }
+.panel { background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; padding: 18px 20px; min-width: 0; }
+.panel h2 { font-size: 17px; margin-bottom: 8px; }
+.panel ul { margin: 0; padding-left: 1.2em; }
+.panel li + li { margin-top: 4px; }
+.levels { display: grid; gap: 6px; margin: 0; }
+.levels div { display: flex; gap: 10px; align-items: baseline; }
+.levels dd { margin: 0; color: var(--muted); }
+
+/* ---------- Controls & index ---------- */
+.controls { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 12px; border-bottom: 1px solid var(--rule); display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg-label { font-size: 12px; color: var(--muted); margin-right: 2px; align-self: center; }
+.chip { font: inherit; font-size: 13px; border: 1px solid var(--rule); background: var(--paper); color: var(--ink); padding: 4px 12px; border-radius: 999px; cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+.count { margin-left: auto; font-family: var(--font-data); font-size: 12px; color: var(--muted); }
+
+.toc { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-block: 28px 8px; }
+.toc h2 { font-size: 16px; margin-bottom: 6px; }
+.toc ol { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
+.toc li { border-bottom: 1px solid var(--rule); }
+.toc a { display: grid; grid-template-columns: 2.4em 1fr auto; gap: 8px; align-items: baseline; padding: 7px 2px; text-decoration: none; color: var(--ink); }
+.toc a:hover .toc-name { color: var(--accent); }
+.toc .num { font-family: var(--font-data); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.toc .toc-en { font-size: 12px; color: var(--muted); margin-left: 6px; }
+
+/* ---------- Sections ---------- */
+.apparatus { margin-top: 48px; }
+.apparatus-head { display: grid; gap: 6px; padding-bottom: 14px; border-bottom: 2px solid var(--ink); margin-bottom: 24px; }
+.apparatus-head h2 { font-size: clamp(22px, 3.6vw, 30px); }
+.apparatus-head p { margin: 0; color: var(--muted); max-width: 66ch; }
+.list { display: grid; gap: 28px; }
+
+/* ---------- Exercise card ---------- */
+.ex { background: var(--paper); border: 1px solid var(--rule); border-radius: 8px; padding: 22px; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 24px; scroll-margin-top: 80px; }
+@media (max-width: 760px) { .ex { grid-template-columns: minmax(0, 1fr); padding: 18px; } }
+
+.photo { display: grid; gap: 8px; align-content: start; }
+.photo-frame { aspect-ratio: 4 / 3; max-width: 100%; border-radius: 6px; overflow: hidden; background: var(--accent-soft); display: grid; place-items: center; position: relative; }
+.photo-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.placeholder { display: grid; justify-items: center; gap: 6px; padding: 16px; text-align: center; color: var(--accent); }
+.placeholder svg { width: 72%; height: auto; }
+.placeholder .ph-note { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.placeholder code { font-family: var(--font-data); font-size: 11px; word-break: break-all; }
+.facts { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 4px 0 0; font-size: 13px; }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; }
+.mono { font-family: var(--font-data); font-size: 12.5px; }
+
+.body { display: grid; gap: 16px; min-width: 0; align-content: start; }
+.ex-head { display: grid; gap: 4px; }
+.ex-meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-family: var(--font-data); font-size: 12px; color: var(--muted); }
+.ex-head h3 { font-size: 23px; }
+.ex-head .en { font-family: var(--font-data); font-size: 13px; color: var(--muted); }
+.badge { display: inline-block; font-family: var(--font-body); font-size: 12px; font-weight: 700; padding: 1px 10px; border-radius: 999px; border: 1.5px solid currentColor; white-space: nowrap; }
+.badge.lv1 { color: var(--lv1); } .badge.lv2 { color: var(--lv2); } .badge.lv3 { color: var(--lv3); }
+
+.block h4 { font-size: 12px; letter-spacing: .08em; color: var(--accent); margin: 0 0 4px; font-weight: 700; }
+.block p { margin: 0; }
+.block ul, .block ol { margin: 0; padding-left: 1.3em; }
+.block li + li { margin-top: 3px; }
+.steps { counter-reset: s; list-style: none; padding-left: 0 !important; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 1.8em 1fr; gap: 6px; }
+.steps li::before { content: counter(s); font-family: var(--font-data); font-size: 12px; color: var(--paper); background: var(--accent); width: 1.5em; height: 1.5em; border-radius: 50%; display: grid; place-items: center; margin-top: .3em; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.target { background: var(--accent-soft); border-radius: 6px; padding: 12px 14px; }
+.caution { background: var(--caution-soft); border-radius: 6px; padding: 12px 14px; }
+.caution h4 { color: var(--caution); }
+.cues li { font-style: normal; }
+.cues li::marker { content: "「"; }
+.cues li::after { content: "」"; }
+
+footer { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 13px; }
+
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+@media print {
+  body { background: #fff; color: #000; padding: 0; font-size: 11pt; }
+  .controls, .toc, .intro { display: none; }
+  .ex { break-inside: avoid; page-break-after: always; border: none; padding: 0; }
+  .apparatus { margin-top: 0; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="eyebrow">Staff Training Manual · Vol.1</div>
+    <h1>ピラティス エクササイズマニュアル</h1>
+    <p class="lead">新しく入ったインストラクター向けの基本マニュアルです。チェア10種目・リフォーマー10種目について、目的・方法・対象者・注意点を1種目1枚でまとめています。レッスン前の予習と、指導中の確認に使ってください。</p>
+  </header>
+
+  <section class="intro" aria-label="はじめに">
+    <div class="panel">
+      <h2>カードの読み方</h2>
+      <ul>
+        <li><strong>目的</strong>：この種目で何を狙うか</li>
+        <li><strong>方法</strong>：セットアップと動きの順序</li>
+        <li><strong>対象者</strong>：どんなお客様に選ぶか</li>
+        <li><strong>注意・禁忌</strong>：避ける／修正すべきケース</li>
+        <li><strong>キュー例</strong>：そのまま使える声かけ</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h2>レベル表記</h2>
+      <dl class="levels">
+        <div><dt><span class="badge lv1">初級</span></dt><dd>初回体験・リハビリ期でも導入しやすい</dd></div>
+        <div><dt><span class="badge lv2">中級</span></dt><dd>基本の体幹コントロールができてから</dd></div>
+        <div><dt><span class="badge lv3">上級</span></dt><dd>先輩インストラクターの確認後に指導</dd></div>
+      </dl>
+    </div>
+    <div class="panel">
+      <h2>スプリングについて</h2>
+      <p style="margin:0">スプリングの色と強さはメーカーによって異なります。本書では「重め／中程度／軽め」で表記し、目安の本数を添えています。<strong>必ず当スタジオの器具の設定表で確認してください。</strong>チェアは軽いほど、リフォーマーの一部種目（エレファント、ロングストレッチなど）も軽いほど難しくなる点に注意します。</p>
+    </div>
+  </section>
+
+  <nav class="controls" aria-label="絞り込み">
+    <div class="seg" role="group" aria-label="器具">
+      <span class="seg-label">器具</span>
+      <button class="chip" id="f-app-all" data-app="all" aria-pressed="true">すべて</button>
+      <button class="chip" id="f-app-chair" data-app="chair" aria-pressed="false">チェア</button>
+      <button class="chip" id="f-app-reformer" data-app="reformer" aria-pressed="false">リフォーマー</button>
+    </div>
+    <div class="seg" role="group" aria-label="レベル">
+      <span class="seg-label">レベル</span>
+      <button class="chip" id="f-lv-all" data-lv="all" aria-pressed="true">すべて</button>
+      <button class="chip" id="f-lv-1" data-lv="1" aria-pressed="false">初級</button>
+      <button class="chip" id="f-lv-2" data-lv="2" aria-pressed="false">中級</button>
+      <button class="chip" id="f-lv-3" data-lv="3" aria-pressed="false">上級</button>
+    </div>
+    <span class="count" id="count"></span>
+  </nav>
+
+  <div class="toc" id="toc"></div>
+  <main id="main"></main>
+
+  <footer>
+    <p>本マニュアルはスタッフ教育用の一般的な指導指針です。医師から運動制限を受けているお客様、妊娠中・産後のお客様、急性の痛みがあるお客様には、医療者の指示とスタジオの受付時ヒアリングを優先してください。</p>
+    <p>写真の追加方法：<code class="mono">images/chair/</code> と <code class="mono">images/reformer/</code> に、各カードに表示されているファイル名で JPG を置くと自動で表示されます。</p>
+  </footer>
+</div>
+
+<script>
+const APPARATUS = {
+  chair: {
+    ja: "チェア",
+    en: "Wunda Chair",
+    desc: "座面とペダル（踏み板）だけのコンパクトな器具。支持面が小さいため、バランス・片脚の安定性・上半身の押す力を鍛えやすい。ペダルが戻る力に負けないよう、戻す局面のコントロールを重視します。"
+  },
+  reformer: {
+    ja: "リフォーマー",
+    en: "Reformer",
+    desc: "スプリングの付いたキャリッジ（台車）が前後に動く器具。寝た姿勢から始められるので初心者やリハビリにも使いやすく、スプリング調整で補助にも負荷にもなります。キャリッジが戻る時に音を立てないこと＝コントロールの目安です。"
+  }
+};
+
+const EXERCISES = [
+  /* ===================== CHAIR ===================== */
+  {
+    app: "chair", ja: "フットワーク", en: "Footwork", lv: 1,
+    spring: "重め（2本を高め〜中程度）",
+    reps: "各ポジション 8〜10回",
+    position: "座位（座面の前端）",
+    muscles: "大腿四頭筋・ハムストリングス・下腿三頭筋・体幹",
+    purpose: ["下肢（股関節・膝・足首）のアライメントを整える", "上半身を高く保ったまま脚を動かす体幹の安定を学ぶ", "レッスン冒頭のウォームアップと、脚の評価"],
+    setup: "座面の前端に座り、坐骨を立てて骨盤ニュートラル。両手は座面の横を軽く持つ。両足をペダルに乗せ、膝は約90°。",
+    steps: ["つま先（母趾球）でペダルに乗り、背骨を長く保つ", "息を吐きながらペダルを下まで押し下げる", "息を吸いながら、ペダルの戻りに逆らうようにゆっくり上げる", "かかと → 母趾球 → Vポジション（かかとを合わせる）の順で足位置を変えて繰り返す"],
+    breath: "吐いて押す／吸って戻す",
+    target: ["初めてチェアを使う方", "膝や股関節のアライメントを整えたい方", "ランナー・歩行を安定させたい方", "高齢者の下肢筋力づくり"],
+    caution: ["膝に痛みがある時は、ペダルを下まで押し切らず可動域を小さくする", "座位で腰が丸まる方は、座面にクッションを入れて骨盤を立てやすくする", "膝の過伸展（押し切った時に膝が反る）に注意"],
+    cues: ["膝は人差し指の方向へ", "座骨で座面を押して、頭は天井へ", "戻す時が本番。ペダルに持ち上げられないで"],
+    modify: "易：スプリングを重くして可動域を小さく ／ 難：片脚で行う（→シングルレッグ・パンピング）"
+  },
+  {
+    app: "chair", ja: "シングルレッグ・パンピング", en: "Single Leg Pumping", lv: 1,
+    spring: "中程度（2本を中程度）",
+    reps: "左右 各8〜10回",
+    position: "座位（座面の前端）",
+    muscles: "大腿四頭筋・大殿筋・股関節周囲筋・体幹",
+    purpose: ["片脚ずつ動かして左右差を確認・修正する", "片脚動作中の骨盤の安定性を高める"],
+    setup: "フットワークと同じ座り方。片足の母趾球をペダルの中央に乗せ、反対の脚は膝を曲げて空中に保つ（難しければ床に足を置く）。",
+    steps: ["骨盤を水平に保ち、ペダルに乗せた足のつま先で構える", "息を吐きながら片脚でペダルを押し下げる", "息を吸いながらゆっくり戻す。骨盤が傾かないことを確認", "回数を終えたら脚を替える"],
+    breath: "吐いて押す／吸って戻す",
+    target: ["左右の脚力やクセに差がある方", "片脚立ちが不安定な方", "スポーツ（走る・跳ぶ）をしている方"],
+    caution: ["押す脚の膝が内側に入る場合はスプリングを重くして回数を減らす", "股関節の手術後は、浮かせる脚の屈曲角度に医師の制限がないか確認"],
+    cues: ["腰骨の左右の高さを揃えたまま", "膝とつま先は同じ方向", "浮いている脚も静かに止めておく"],
+    modify: "易：浮かせる脚の足を床に置く ／ 難：スプリングを軽くしてゆっくり行う"
+  },
+  {
+    app: "chair", ja: "ハムストリング・ストレッチ", en: "Hamstring Stretch", lv: 1,
+    spring: "中程度（2本を中程度〜軽め）",
+    reps: "6〜8回",
+    position: "立位（チェアの正面・ペダル側）",
+    muscles: "腹筋群・ハムストリングス（ストレッチ）・前鋸筋",
+    purpose: ["もも裏と背面をストレッチしながら腹筋で背骨を丸める感覚をつくる", "腕で押す動きと体幹の連動を学ぶ"],
+    setup: "チェアのペダル側に向かい、足を腰幅で立つ。背骨を丸めて前屈し、両手を肩幅でペダルに置く。膝は軽く曲げてよい。",
+    steps: ["息を吸って準備。お腹を引き上げて背中を丸める", "息を吐きながら、お腹をさらに引き込みペダルを押し下げる", "息を吸いながらペダルをゆっくり戻し、腹筋で背中を天井へ持ち上げる", "終わったら膝を曲げて背骨を一つずつ積み上げて立ち上がる"],
+    breath: "吐いて押す／吸って戻す",
+    target: ["もも裏が硬く前屈が苦手な方", "デスクワークで背中が固まっている方", "腹筋を使った背骨の丸め方を覚えたい初心者"],
+    caution: ["骨粗鬆症・椎間板ヘルニアの方は背骨を丸める動き（屈曲）を避ける", "血圧が高い方・めまいのある方は頭を下げる時間を短く、立ち上がりはゆっくり", "ペダルから手が滑らないよう、手は常にペダル中央に"],
+    cues: ["おへそを背骨へ引き込んで", "頭と首の力を抜いてぶら下げる", "ペダルを押すのは腕ではなくお腹から"],
+    modify: "易：膝を大きく曲げる ／ 難：膝を伸ばしてスプリングを軽くする"
+  },
+  {
+    app: "chair", ja: "マーメイド（シーテッド）", en: "Seated Mermaid", lv: 1,
+    spring: "軽め（1本を中程度）",
+    reps: "左右 各4〜6回",
+    position: "座位（座面に横向き）",
+    muscles: "腹斜筋・広背筋・腰方形筋（ストレッチ）",
+    purpose: ["体側（わき腹）を伸ばし、背骨の側屈の可動性を高める", "呼吸で肋骨を広げる感覚をつくる"],
+    setup: "座面に横向きに座り、ペダル側の手をペダルに置く。反対の腕は横へ。両坐骨を座面に均等に乗せる。",
+    steps: ["息を吸いながら、外側の腕を頭上へ伸ばす", "息を吐きながら、ペダルを押し下げつつペダル側へ体を横に倒す", "倒れた位置で一呼吸。上側の肋骨に息を入れる", "息を吐きながら、ペダルをコントロールして元の座位に戻る"],
+    breath: "吸って腕を上げる／吐いて倒す",
+    target: ["わき腹や背中が硬く、呼吸が浅い方", "肩こりのある方", "ゴルフ・テニスなど体をひねる・倒すスポーツの方"],
+    caution: ["肩に痛みがある方は、頭上に上げる腕を肩の高さまでにする", "反対側の坐骨が浮かないように（腰へのねじれを防ぐ）"],
+    cues: ["坐骨は両方とも座面に", "横に倒れる前に、まず上へ伸びる", "上側の肋骨に空気を送って"],
+    modify: "易：可動域を小さく、腕を下ろしたまま ／ 難：倒した位置から胸を床の方へ向けるひねりを加える"
+  },
+  {
+    app: "chair", ja: "トライセップス・プレス", en: "Triceps Press (Seated)", lv: 2,
+    spring: "軽め〜中程度（1〜2本）",
+    reps: "8〜10回",
+    position: "座位（ペダルに背を向けて座面の前端）",
+    muscles: "上腕三頭筋・肩甲骨の下制筋・体幹",
+    purpose: ["二の腕（上腕三頭筋）の強化", "肩をすくめずに押す、肩甲骨の安定を学ぶ"],
+    setup: "ペダル側に背を向けて座面の前端に座る。両手を後ろに回し、ペダルを肩幅で持つ。肘は後ろ向きに曲がった状態からスタート。足は床に。",
+    steps: ["背骨を長く保ち、肩を耳から遠ざける", "息を吐きながら肘を伸ばしてペダルを押し下げる", "息を吸いながら肘を曲げ、ゆっくり戻す", "肘が外に開かないよう、後ろに向けたまま繰り返す"],
+    breath: "吐いて押す／吸って戻す",
+    target: ["二の腕を引き締めたい方", "肩が前に巻きやすい（猫背）方", "上半身の筋力が不足している方"],
+    caution: ["肩の前側に痛みがある方、肩関節の脱臼歴がある方は避けるか可動域をごく小さく", "手首に痛みがある場合はペダルの持ち方を変えるか中止"],
+    cues: ["肘は真後ろへ", "胸は開いて、肩は下へ", "腰を反らさずに、体幹は動かさない"],
+    modify: "易：スプリングを重くして可動域を小さく ／ 難：片脚を浮かせて行う"
+  },
+  {
+    app: "chair", ja: "ニーリング・アームプレス", en: "Kneeling Arm Press", lv: 2,
+    spring: "中程度（1〜2本）",
+    reps: "8〜10回",
+    position: "膝立ち（床にマット。ペダル側に向かう）",
+    muscles: "広背筋・前鋸筋・腹筋群",
+    purpose: ["背中（広背筋）と体幹をつなげて使う", "腕で押す時に背骨をニュートラルに保つ練習"],
+    setup: "チェアのペダル側に向かって床に膝立ち（マット使用）。股関節から体を少し前に傾け、両手を肩幅でペダルに置く。腕はまっすぐ。",
+    steps: ["頭から膝まで一直線をつくる", "息を吐きながら、腕を伸ばしたまま背中の力でペダルを押し下げる", "息を吸いながら、ゆっくりペダルを戻す", "腰が反ったりお尻が引けたりしないことを確認して繰り返す"],
+    breath: "吐いて押す／吸って戻す",
+    target: ["猫背・肩が上がりやすい方", "腕と体幹をつなげる感覚を覚えたい方", "プランク系種目の準備段階の方"],
+    caution: ["膝に痛みがある方は厚めのマットやクッションを使う。膝立ちが難しければ中止", "肩の痛みがある方は可動域を小さく"],
+    cues: ["脇の下からペダルを押す", "頭のてっぺんから膝まで一本の線", "肩と耳の距離を遠く"],
+    modify: "易：スプリングを重くする ／ 難：片手で行う（体幹のねじれに耐える）"
+  },
+  {
+    app: "chair", ja: "スワン", en: "Swan (on the Chair)", lv: 2,
+    spring: "中程度（1〜2本）",
+    reps: "5〜6回",
+    position: "うつ伏せ（座面の上にお腹を乗せる）",
+    muscles: "脊柱起立筋・殿筋群・肩甲骨周囲筋",
+    purpose: ["背骨を反らす（伸展）力と可動性を高める", "胸を開いて姿勢を改善する"],
+    setup: "座面に骨盤〜お腹を乗せてうつ伏せ。胸から上は座面の前に出す。両手は肩幅でペダルに置き、ペダルは押し下げた状態。脚は後ろに伸ばして揃える。",
+    steps: ["お腹を軽く引き上げ、脚を長く伸ばす", "息を吸いながらペダルがゆっくり上がるのを腕でコントロールし、胸を持ち上げて背骨を反らせる", "息を吐きながら、ペダルを押し下げて体を元の位置に戻す", "首だけで反らず、背骨全体で弧を描いて繰り返す"],
+    breath: "吸って反る／吐いて戻る",
+    target: ["猫背・巻き肩の方", "デスクワークで胸が閉じている方", "背中の筋力を高めたい方"],
+    caution: ["腰椎すべり症・脊柱管狭窄症の方は背骨を反らす動きを避ける", "妊娠中はうつ伏せにならない", "腰に詰まり感が出たら可動域を小さく"],
+    cues: ["胸骨を前へ遠くへ", "腰で反らずに背中の上の方から", "脚は長く、お尻は軽く締める"],
+    modify: "易：胸を少しだけ上げる小さな動き ／ 難：スプリングを軽くする"
+  },
+  {
+    app: "chair", ja: "スタンディング・レッグプレス", en: "Standing Leg Press", lv: 2,
+    spring: "中程度（1〜2本）",
+    reps: "左右 各8回",
+    position: "立位（ペダル側に向かって床に立つ）",
+    muscles: "支持脚の中殿筋・大腿四頭筋・動く脚の股関節屈筋群と伸筋群・体幹",
+    purpose: ["片脚立ちでのバランスと骨盤の安定", "支持脚側の股関節（中殿筋）を働かせる"],
+    setup: "ペダル側に向かって床に立つ。片足の母趾球をペダルに乗せる。両手は腰に。支持脚はまっすぐ、骨盤は水平。",
+    steps: ["頭を天井へ引き上げ、支持脚で床を押す", "息を吐きながらペダルに乗せた足で真下へ押し下げる", "息を吸いながら、上体を高く保ったままゆっくり戻す", "回数を終えたら脚を替える"],
+    breath: "吐いて押す／吸って戻す",
+    target: ["転倒予防をしたい高齢者（手すり付きのチェア推奨）", "片脚立ちがふらつく方", "ゴルフ・ランニングなど片脚支持が多いスポーツの方"],
+    caution: ["バランスに不安がある方は、スタッフが横で補助するか壁・バーを持ってもらう", "支持脚の膝を反らせすぎない", "足首の捻挫直後は避ける"],
+    cues: ["支持脚で床を押して背を高く", "腰骨は左右とも正面", "ペダルが上がる時も体は沈まない"],
+    modify: "易：手でチェアのハンドルや壁を持つ ／ 難：両手を頭上に上げる"
+  },
+  {
+    app: "chair", ja: "ゴーイング・アップ・フロント（ステップアップ）", en: "Going Up Front", lv: 2,
+    spring: "軽め〜中程度（軽いほど難しい）",
+    reps: "左右 各5〜6回",
+    position: "立位（片足を座面、片足をペダル）",
+    muscles: "大殿筋・大腿四頭筋・ハムストリングス・体幹",
+    purpose: ["階段昇降のような機能的な脚力の強化", "脚を伸ばす時の骨盤・体幹のコントロール"],
+    setup: "チェアの正面に立つ。片足を座面の上に置き、もう片方の足でペダルを押し下げた状態で乗せる。両手は腰に（必要なら補助者の手を持つ）。",
+    steps: ["上体を座面側の膝の上に少し前傾させ、背骨を長く保つ", "息を吐きながら座面の足で押し、膝を伸ばして立ち上がる。ペダルは後ろ足と一緒に上がる", "頂点で体をまっすぐに。骨盤は水平", "息を吸いながら、座面の脚を曲げてペダルをコントロールしながら下りる"],
+    breath: "吐いて上がる／吸って下りる",
+    target: ["日常の階段昇降を楽にしたい方", "お尻（大殿筋）を鍛えたい方", "スポーツ選手の下肢強化"],
+    caution: ["転倒リスクがあるため、初回は必ずスタッフが横で補助する", "膝に痛みがある方、バランスに不安がある方は避ける", "座面の膝がつま先より大きく内側に入らないように"],
+    cues: ["かかとで座面を押して立ち上がる", "上がり切った時、頭から足まで一直線", "下りる時の方がゆっくり"],
+    modify: "易：スプリングを重くし、補助者の手を持つ ／ 難：スプリングを軽くし、両腕を頭上へ"
+  },
+  {
+    app: "chair", ja: "プルアップ（パイク）", en: "Pull Up", lv: 3,
+    spring: "軽め〜中程度（1〜2本）",
+    reps: "5〜6回",
+    position: "前方支持（手は座面、足はペダル）",
+    muscles: "腹筋群・肩甲骨周囲筋・上腕三頭筋",
+    purpose: ["お腹の引き込みで骨盤を持ち上げる強い体幹コントロール", "肩周りの安定性と上半身の支持力"],
+    setup: "ペダル側に立ち、両手で座面の前端を肩幅で持つ。両足の母趾球をペダルに乗せ、ペダルを押し下げた状態。肩は手首の真上。",
+    steps: ["体を斜めの一直線に保ち、お腹を引き込む", "息を吐きながらお腹を引き上げ、お尻を天井へ持ち上げる。ペダルは足と一緒に上がる（パイク）", "頂点で肩が手の真上にあることを確認", "息を吸いながら、ペダルが急に戻らないようコントロールして元の位置へ下ろす"],
+    breath: "吐いて上げる／吸って下ろす",
+    target: ["基本の体幹コントロールができている中上級者", "肩・腕の支持力を高めたい方", "アスリート"],
+    caution: ["手首・肩に痛みがある方は行わない", "高血圧・緑内障の方は頭が下がる姿勢を避ける", "ペダルから足が外れるとチェアが跳ね上がるため、初回は必ずスタッフが補助する"],
+    cues: ["おへそを天井に吊り上げる", "肩は手の真上、手で座面を押し続ける", "脚ではなくお腹で持ち上げる"],
+    modify: "易：可動域を半分にする ／ 難：スプリングを軽くする"
+  },
+
+  /* ===================== REFORMER ===================== */
+  {
+    app: "reformer", ja: "フットワーク", en: "Footwork", lv: 1,
+    spring: "重め（例：強いスプリング3〜4本）",
+    reps: "各ポジション 10回",
+    position: "仰向け（ヘッドレスト使用）",
+    muscles: "大腿四頭筋・ハムストリングス・殿筋群・下腿三頭筋",
+    purpose: ["下肢のアライメントと、脚を動かす間の骨盤・体幹の安定を学ぶ", "全身の血流を上げるウォームアップ", "その日の身体の状態（左右差・痛み）の確認"],
+    setup: "キャリッジに仰向け。肩をショルダーレストに軽く当て、頭はヘッドレスト。両足をフットバーに乗せ、骨盤ニュートラル。腕は体の横。",
+    steps: ["足の指の付け根（母趾球）でフットバーに乗る", "息を吐きながら脚を伸ばしてキャリッジを押し出す（膝を反らせない）", "息を吸いながら、ゆっくりキャリッジを戻す", "かかと → 母趾球 → Vポジション → 広いスタンス の順で繰り返し、最後にかかとの上げ下げ（カーフレイズ）"],
+    breath: "吐いて押す／吸って戻す（逆でも可。一定のリズムで）",
+    target: ["すべての初回のお客様", "膝・股関節のアライメントを整えたい方", "運動不足の方・高齢者", "ウォームアップとして全員"],
+    caution: ["膝の過伸展がある方は伸ばし切る手前で止める", "股関節の人工関節の方は、広いスタンスや深い屈曲に医師の制限がないか確認", "キャリッジが勢いよく戻ってストッパーに当たらないように"],
+    cues: ["膝は第2趾の方向へ", "お尻の下（坐骨）を遠くへ伸ばすイメージ", "キャリッジを静かに戻して"],
+    modify: "易：スプリングを重くして可動域を小さく ／ 難：片脚で行う、スプリングを軽くして速度をゆっくり"
+  },
+  {
+    app: "reformer", ja: "ハンドレッド", en: "The Hundred", lv: 2,
+    spring: "中程度（例：強いスプリング1〜2本）",
+    reps: "10呼吸（5回吸う・5回吐く × 10セット ＝ 100カウント）",
+    position: "仰向け（ストラップを手に持つ）",
+    muscles: "腹直筋・腹横筋・肩甲骨の安定筋",
+    purpose: ["呼吸と腹筋の持久力を高める", "全身を温め、体幹で頭と脚を支える力をつける"],
+    setup: "仰向けで両手にストラップを持ち、腕を天井へ。脚はテーブルトップ（膝90°）。",
+    steps: ["息を吐きながら頭・首・肩を丸めて持ち上げ、同時に腕を体の横まで下ろす", "脚はテーブルトップのまま、またはできる人は斜め上に伸ばす", "腕を小さく上下に振りながら、5カウントで吸い、5カウントで吐く", "10セット（100カウント）後、脚をテーブルトップに戻し、頭を下ろして休む"],
+    breath: "5カウント吸う・5カウント吐く",
+    target: ["腹筋の持久力を高めたい方", "呼吸が浅い方", "レッスンの前半で体を温めたい時"],
+    caution: ["首が痛い・首に力が入る方は頭を下ろしたまま行う", "骨粗鬆症の方は頭を持ち上げる（体幹屈曲）動きを避け、頭を下ろして行う", "腰が浮く場合は脚の角度を高くする（テーブルトップへ戻す）", "産後で腹直筋離開がある方はお腹が盛り上がらないか確認"],
+    cues: ["お腹はへこませたまま、膨らませない", "目線はおへそへ、首は長く", "腕は脇から振る。手首だけで振らない"],
+    modify: "易：頭を下ろす／足をフットバーに置く ／ 難：脚を低い角度で伸ばす"
+  },
+  {
+    app: "reformer", ja: "スーパイン・アームシリーズ", en: "Supine Arm Series", lv: 1,
+    spring: "軽め（例：軽いスプリング1本〜強いスプリング1本）",
+    reps: "各動き 8〜10回",
+    position: "仰向け（ストラップを手に持つ）",
+    muscles: "広背筋・大胸筋・三角筋・上腕三頭筋・体幹",
+    purpose: ["肩甲骨を安定させたまま腕を動かす練習", "腕の動きに負けない体幹（肋骨と骨盤）の安定"],
+    setup: "仰向けで両手にストラップを持つ。脚はテーブルトップ（または足をフットバーに置く）。腕は天井へまっすぐ。",
+    steps: ["プレスダウン：息を吐きながら腕を伸ばしたまま体の横まで下ろし、吸って天井へ戻す", "トライセップス：腕を体の横に下ろし、肘を曲げ伸ばしする", "サークル：腕で大きな円を描く（両方向）", "Tの字：腕を横に開いた位置から体の横へ閉じる"],
+    breath: "吐いて引く／吸って戻す",
+    target: ["初心者の上半身入門", "肩こり・巻き肩の方", "肩のリハビリ後期で、医師の許可がある方"],
+    caution: ["肩に痛みがある方は可動域を痛みのない範囲に限定", "腕を上げた時に肋骨が浮く（腰が反る）場合は、可動域を小さく", "ストラップを持ったまま手を離さない（キャリッジが急に戻る）"],
+    cues: ["肩はマットに沈めたまま", "肋骨を閉じて、背中を広く", "戻す時もストラップを張ったまま"],
+    modify: "易：足をフットバーに置く ／ 難：脚をテーブルトップや斜め上に伸ばす"
+  },
+  {
+    app: "reformer", ja: "ブリッジ（ペルビック・カール）", en: "Bridging / Pelvic Curl", lv: 1,
+    spring: "中程度〜重め（例：強いスプリング2〜3本）",
+    reps: "6〜8回",
+    position: "仰向け（足はフットバー）",
+    muscles: "大殿筋・ハムストリングス・腹筋群",
+    purpose: ["背骨を一つずつ動かす（分節運動）感覚をつくる", "お尻ともも裏の強化"],
+    setup: "仰向けで両足のかかとをフットバーに腰幅で乗せる。腕は体の横。骨盤ニュートラル。",
+    steps: ["息を吐きながら尾骨から背骨を一つずつマットから剥がし、お尻を持ち上げる", "肩からひざまで一直線になる位置で止まる（キャリッジは動かさない）", "息を吸って準備", "息を吐きながら、胸の方から背骨を一つずつマットに下ろす"],
+    breath: "吐いて上がる／吸ってキープ／吐いて下りる",
+    target: ["腰や背中が固まっている方", "お尻の筋力が弱い方", "産後の骨盤底筋・体幹の再教育（医師の許可後）"],
+    caution: ["首に体重が乗るほど高く上げない", "骨粗鬆症の方は背骨を丸めずニュートラルのまま持ち上げる（ヒップリフト）", "もも裏がつる場合はスプリングを重くし、足をフットバーに近づける"],
+    cues: ["背骨を真珠のネックレスのように一つずつ", "上がった位置で腰を反らさない", "膝は遠くへ伸ばすように"],
+    modify: "易：小さく持ち上げるだけ ／ 難：ブリッジの位置でキャリッジを押し引き、片脚で行う"
+  },
+  {
+    app: "reformer", ja: "フィート・イン・ストラップ（フロッグ／レッグサークル）", en: "Feet in Straps", lv: 1,
+    spring: "中程度（例：強いスプリング1〜2本）",
+    reps: "各動き 8〜10回",
+    position: "仰向け（両足をストラップに）",
+    muscles: "内転筋・ハムストリングス・股関節周囲筋・腹筋群",
+    purpose: ["股関節の可動性を高める", "脚を動かしている間の骨盤の安定", "内もも・もも裏の強化とストレッチ"],
+    setup: "仰向けで両足の土踏まずにストラップをかける。かかとを合わせて膝を開いたフロッグの姿勢から開始。",
+    steps: ["フロッグ：息を吐きながら脚を斜め上に伸ばし、吸って膝を曲げて戻す", "ダウン＆アップ：脚を伸ばしたまま下ろし、腰が浮かない範囲で上げる", "サークル：揃えた脚で円を描く（両方向）", "終わったら膝を曲げてストラップを外す"],
+    breath: "吐いて伸ばす／吸って戻す",
+    target: ["股関節が硬い方", "腰痛予防に骨盤の安定を身につけたい方", "内ももを引き締めたい方"],
+    caution: ["脚を下ろした時に腰が反る場合は、脚を下ろす角度を高くする", "股関節の人工関節の方は、深い屈曲・内旋を避ける（医師の指示を確認）", "ストラップが足から外れないよう、足の位置を毎回確認"],
+    cues: ["骨盤はマットに置いたまま", "脚は付け根から動かす", "内ももを寄せ合って"],
+    modify: "易：円を小さく ／ 難：スプリングを軽くして円を大きく"
+  },
+  {
+    app: "reformer", ja: "ショートボックス（ラウンドバック）", en: "Short Box – Round Back", lv: 2,
+    spring: "軽め（例：強いスプリング1本／フットストラップ使用）",
+    reps: "6〜8回",
+    position: "座位（ショートボックスの上）",
+    muscles: "腹筋群（腹直筋・腹横筋）",
+    purpose: ["背骨を丸めたまま体を支える腹筋の強化", "骨盤を後傾させるコントロールを学ぶ"],
+    setup: "ボックスをキャリッジの上に横向きに置き、フットバー側を向いて座る。足はフットストラップの下に入れて固定。腕は胸の前で組むか、ポールを持つ。",
+    steps: ["背骨をまっすぐ長く座る", "息を吐きながら骨盤を後ろに傾け、背中をCカーブに丸めて後ろへ倒れる", "腹筋で支えられる位置で止まる（倒れすぎない）", "息を吸って、吐きながらCカーブのまま戻り、背骨を積み上げて座る"],
+    breath: "吐いて倒れる／吸って止まる／吐いて戻る",
+    target: ["腹筋を強化したい方", "ハンドレッドなどができるようになった中級者", "姿勢の保持力を高めたい方"],
+    caution: ["骨粗鬆症・椎間板ヘルニアの方は背骨の屈曲なので行わない", "腰に痛みがある方は倒れる範囲を小さく", "フットストラップに足がしっかり入っているか必ず確認（後ろへ落下する危険）"],
+    cues: ["おへそを背骨へ引き込んだまま", "肩の力を抜いて、腕は胸の前", "足でストラップを蹴りすぎない"],
+    modify: "易：手でボックスの縁を持つ、範囲を小さく ／ 難：腕を頭上に伸ばす"
+  },
+  {
+    app: "reformer", ja: "エレファント", en: "Elephant", lv: 2,
+    spring: "中程度（例：強いスプリング1〜2本。軽いほど難しい）",
+    reps: "6〜8回",
+    position: "立位（キャリッジの上、手はフットバー）",
+    muscles: "腹筋群・ハムストリングス（ストレッチ）・肩甲骨の安定筋",
+    purpose: ["腹筋で脚を引き寄せる力をつける", "もも裏とふくらはぎのストレッチ", "手で支える時の肩の安定"],
+    setup: "キャリッジの上に立ち、かかとをショルダーレストに当てる。前屈して両手をフットバーに肩幅で置く。背中を丸めた逆V字の姿勢。",
+    steps: ["お腹を引き込み、背中を天井へ持ち上げる", "息を吸いながら、脚でキャリッジを後ろへ押し出す（上体は動かさない）", "息を吐きながら、お腹を引き上げてキャリッジを引き戻す", "背中の丸みと肩の位置を保ったまま繰り返す"],
+    breath: "吸って押す／吐いて引き寄せる",
+    target: ["もも裏が硬い方", "腹筋で下半身を動かす感覚を身につけたい中級者", "ハムストリング・ストレッチ（チェア）ができた方"],
+    caution: ["手首・肩に痛みがある方は行わない", "高血圧・緑内障の方は頭が下がる姿勢を避ける", "キャリッジの上に立つ・降りる時は必ずスプリングを付けた状態で、スタッフが支える"],
+    cues: ["脚ではなくお腹でキャリッジを引く", "かかとは下へ、頭の力は抜く", "手でフットバーを押し続けて肩を安定"],
+    modify: "易：膝を軽く曲げる、スプリングを重く ／ 難：背骨をニュートラル（フラットバック）にする"
+  },
+  {
+    app: "reformer", ja: "ニーストレッチ（ラウンド）", en: "Knee Stretch – Round", lv: 2,
+    spring: "中程度（例：強いスプリング1〜2本）",
+    reps: "8〜10回",
+    position: "膝立ち（四つ這い。手はフットバー、足裏はショルダーレスト）",
+    muscles: "腹筋群・股関節伸筋群・肩甲骨の安定筋",
+    purpose: ["体幹を固定したまま股関節だけを動かす力", "上半身で支えながら下半身を動かすコーディネーション"],
+    setup: "キャリッジの上で四つ這い。手はフットバーを肩幅で持ち、膝はキャリッジ、足裏はショルダーレストに当てる。背中は丸める。",
+    steps: ["お腹を引き上げて背中を丸め、目線は膝へ", "息を吸いながら、膝でキャリッジを後ろへ押す（上体は動かさない）", "息を吐きながら、お腹を引き込んでキャリッジを戻す", "リズムよく、ただし音を立てずに繰り返す"],
+    breath: "吸って押す／吐いて戻す",
+    target: ["体幹を安定させて脚を動かす練習をしたい方", "ランナー・スポーツ選手", "エレファントの前段階として"],
+    caution: ["膝に痛みがある方は膝の下にパッドを置くか、行わない", "手首に痛みがある場合は避ける", "背中が反らないように。反るとキャリッジが大きく動きすぎて腰を痛める"],
+    cues: ["上体は動かさず、脚だけが動く", "膝をお腹に引き寄せる", "キャリッジの音を立てない"],
+    modify: "易：動きを小さくゆっくり ／ 難：フラットバック、膝を浮かせる（ニーズオフ）"
+  },
+  {
+    app: "reformer", ja: "ロングストレッチ", en: "Long Stretch", lv: 3,
+    spring: "軽め〜中程度（例：強いスプリング1本＋軽め1本）",
+    reps: "4〜6回",
+    position: "プランク（手はフットバー、足はショルダーレスト）",
+    muscles: "腹筋群・肩甲骨周囲筋・大殿筋・全身",
+    purpose: ["動くキャリッジの上でプランクを保つ全身の安定性", "肩と体幹の強さ"],
+    setup: "両手でフットバーを肩幅で持ち、プランクの姿勢で母趾球をショルダーレストのキャリッジ寄りに当てる。肩は手の真上、頭からかかとまで一直線。",
+    steps: ["プランクの姿勢で一直線をつくる", "息を吸いながら、体をまっすぐ保ったままキャリッジを後ろへ押す（肩が手より後ろへ）", "息を吐きながら、肩を手の真上に戻してキャリッジを引き戻す", "腰が落ちない・お尻が上がらないことを確認して繰り返す"],
+    breath: "吸って押す／吐いて戻す",
+    target: ["床のプランクを30秒以上正しく保てる方", "全身の強さを高めたい上級者・アスリート"],
+    caution: ["手首・肩に痛みがある方は行わない", "腰が落ちて反る場合は即中止して、ニーストレッチやエレファントに戻す", "乗り降りの際は必ずスタッフが補助し、スプリングを付けたまま"],
+    cues: ["頭からかかとまで一本の板", "手でフットバーを押し続ける", "押し出すのは肩から"],
+    modify: "易：可動域を小さく、スプリングを重く ／ 難：片脚を浮かせる"
+  },
+  {
+    app: "reformer", ja: "マーメイド", en: "Mermaid", lv: 1,
+    spring: "軽め（例：軽いスプリング1本）",
+    reps: "左右 各3〜4回",
+    position: "座位（キャリッジに横向き）",
+    muscles: "腹斜筋・広背筋・肋間筋（ストレッチ）",
+    purpose: ["体側を伸ばし、背骨の側屈の可動性を高める", "呼吸を深め、レッスンのクールダウンとして整える"],
+    setup: "キャリッジに横向きに座り、足を横座り（Zシット）か、あぐらにする。フットバー側の手をフットバーに置き、反対の腕は横へ。",
+    steps: ["息を吸いながら、外側の腕を頭上へ伸ばす", "息を吐きながら、フットバーの手でキャリッジを押し出し、体をフットバー側へ横に倒す", "伸びた位置で一呼吸。上側の肋骨に息を入れる", "息を吐きながらキャリッジを戻して座位へ。反対側へ倒すバリエーションも行う"],
+    breath: "吸って伸びる／吐いて倒れる",
+    target: ["全員（クールダウンとして）", "わき腹・背中が硬い方", "呼吸が浅い方", "ゴルフなど回旋系スポーツの方"],
+    caution: ["膝や股関節が痛い方は、横座りではなくあぐらや足を下ろした座り方にする", "肩の痛みがある方は頭上の腕を肩の高さまで", "反対側の坐骨が大きく浮かないように"],
+    cues: ["倒れる前にまず上へ", "わき腹がアーチ状に伸びる", "上側の肋骨に空気を"],
+    modify: "易：可動域を小さく ／ 難：倒した位置で胸をフットバーへ向けるツイストを加える"
+  }
+];
+
+/* ---------- Placeholder art (drawn apparatus outline) ---------- */
+const ART = {
+  chair: `<svg viewBox="0 0 200 140" role="img" aria-label="チェアのイラスト" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="60" y="30" width="80" height="20" rx="4" fill="currentColor" fill-opacity=".12"/>
+    <rect x="66" y="50" width="68" height="70" rx="3"/>
+    <line x1="60" y1="120" x2="140" y2="120"/>
+    <path d="M66 112 L30 96"/>
+    <rect x="16" y="90" width="22" height="10" rx="3" transform="rotate(-24 27 95)" fill="currentColor" fill-opacity=".12"/>
+    <path d="M78 64 q6 10 0 20 M88 64 q6 10 0 20" stroke-width="2"/>
+  </svg>`,
+  reformer: `<svg viewBox="0 0 200 140" role="img" aria-label="リフォーマーのイラスト" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="12" y="78" width="176" height="14" rx="4"/>
+    <line x1="22" y1="92" x2="22" y2="112"/><line x1="178" y1="92" x2="178" y2="112"/>
+    <rect x="70" y="64" width="62" height="14" rx="3" fill="currentColor" fill-opacity=".12"/>
+    <line x1="80" y1="56" x2="80" y2="64"/><line x1="92" y1="56" x2="92" y2="64"/>
+    <path d="M30 78 L30 44 M30 44 L42 44" />
+    <path d="M70 72 q-12 -4 -24 0 q-6 2 -12 0" stroke-width="2"/>
+    <line x1="176" y1="78" x2="176" y2="48"/><circle cx="176" cy="44" r="4"/>
+  </svg>`
+};
+
+/* ---------- Render ---------- */
+const LV_LABEL = { 1: "初級", 2: "中級", 3: "上級" };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const slug = en => en.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+const counters = { chair: 0, reformer: 0 };
+EXERCISES.forEach(ex => {
+  ex.no = ++counters[ex.app];
+  const nn = String(ex.no).padStart(2, "0");
+  ex.id = `${ex.app}-${nn}`;
+  ex.photo = `images/${ex.app}/${nn}-${slug(ex.en)}.jpg`;
+});
+
+const li = arr => arr.map(x => `<li>${esc(x)}</li>`).join("");
+
+function card(ex) {
+  const nn = String(ex.no).padStart(2, "0");
+  return `
+  <article class="ex" id="${ex.id}" data-app="${ex.app}" data-lv="${ex.lv}">
+    <div class="photo">
+      <div class="photo-frame">
+        <img src="${esc(ex.photo)}" alt="${esc(ex.ja)}の姿勢" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">
+        <div class="placeholder" hidden>
+          ${ART[ex.app]}
+          <div class="ph-note">写真未登録<br><code>${esc(ex.photo)}</code></div>
+        </div>
+      </div>
+      <dl class="facts">
+        <dt>スプリング</dt><dd>${esc(ex.spring)}</dd>
+        <dt>回数</dt><dd>${esc(ex.reps)}</dd>
+        <dt>姿勢</dt><dd>${esc(ex.position)}</dd>
+        <dt>主な筋肉</dt><dd>${esc(ex.muscles)}</dd>
+      </dl>
+    </div>
+    <div class="body">
+      <div class="ex-head">
+        <div class="ex-meta"><span>${APPARATUS[ex.app].ja} ${nn}</span><span class="badge lv${ex.lv}">${LV_LABEL[ex.lv]}</span></div>
+        <h3>${esc(ex.ja)}</h3>
+        <div class="en">${esc(ex.en)}</div>
+      </div>
+      <div class="block"><h4>目的</h4><ul>${li(ex.purpose)}</ul></div>
+      <div class="block"><h4>セットアップ</h4><p>${esc(ex.setup)}</p></div>
+      <div class="block"><h4>方法</h4><ol class="steps">${li(ex.steps)}</ol></div>
+      <div class="block"><h4>呼吸</h4><p>${esc(ex.breath)}</p></div>
+      <div class="two">
+        <div class="block target"><h4>対象者（おすすめ）</h4><ul>${li(ex.target)}</ul></div>
+        <div class="block caution"><h4>注意・禁忌</h4><ul>${li(ex.caution)}</ul></div>
+      </div>
+      <div class="block"><h4>キュー例（声かけ）</h4><ul class="cues">${li(ex.cues)}</ul></div>
+      <div class="block"><h4>レベル調整</h4><p>${esc(ex.modify)}</p></div>
+    </div>
+  </article>`;
+}
+
+function render() {
+  const main = document.getElementById("main");
+  const toc = document.getElementById("toc");
+  main.innerHTML = Object.entries(APPARATUS).map(([key, a]) => `
+    <section class="apparatus" id="${key}" data-app="${key}">
+      <div class="apparatus-head">
+        <div class="eyebrow">${esc(a.en)}</div>
+        <h2>${esc(a.ja)}　${EXERCISES.filter(e => e.app === key).length}種目</h2>
+        <p>${esc(a.desc)}</p>
+      </div>
+      <div class="list">${EXERCISES.filter(e => e.app === key).map(card).join("")}</div>
+    </section>`).join("");
+  toc.innerHTML = Object.entries(APPARATUS).map(([key, a]) => `
+    <div data-app="${key}">
+      <h2>${esc(a.ja)}</h2>
+      <ol>${EXERCISES.filter(e => e.app === key).map(e => `
+        <li data-lv="${e.lv}"><a href="#${e.id}"><span class="num">${String(e.no).padStart(2, "0")}</span><span><span class="toc-name">${esc(e.ja)}</span></span><span class="badge lv${e.lv}">${LV_LABEL[e.lv]}</span></a></li>`).join("")}
+      </ol>
+    </div>`).join("");
+}
+
+const state = { app: "all", lv: "all" };
+function applyFilter() {
+  let shown = 0;
+  document.querySelectorAll(".ex").forEach(el => {
+    const ok = (state.app === "all" || el.dataset.app === state.app) && (state.lv === "all" || el.dataset.lv === state.lv);
+    el.hidden = !ok;
+    if (ok) shown++;
+  });
+  document.querySelectorAll(".apparatus, .toc > div").forEach(el => {
+    el.hidden = !(state.app === "all" || el.dataset.app === state.app);
+  });
+  document.querySelectorAll(".toc li").forEach(el => {
+    el.hidden = !(state.lv === "all" || el.dataset.lv === state.lv);
+  });
+  document.getElementById("count").textContent = `${shown} / ${EXERCISES.length} 種目`;
+  document.querySelectorAll("[data-app].chip").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.app === state.app)));
+  document.querySelectorAll("[data-lv].chip").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lv === state.lv)));
+}
+
+render();
+document.querySelectorAll(".chip").forEach(b => b.addEventListener("click", () => {
+  if (b.dataset.app) state.app = b.dataset.app;
+  if (b.dataset.lv) state.lv = b.dataset.lv;
+  applyFilter();
+}));
+applyFilter();
+</script>
+</body>
+</html>
