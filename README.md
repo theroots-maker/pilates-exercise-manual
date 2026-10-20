@@ -48,3 +48,7 @@ images/chair/10-pull-up.jpg               images/reformer/10-mermaid.jpg
 
 - スプリングの色・強さはメーカーによって異なります。本書は「重め／中程度／軽め」と目安の本数で記載しているので、スタジオの設定表と合わせて確認してください。
 - 本書は一般的な指導指針です。医師の運動制限がある方、妊娠中・産後の方、急性の痛みがある方は、医療者の指示とスタジオのヒアリングを優先してください。
+
+## スタジオ
+
+The Roots Pilates — Instagram: [@theroots.pilates](https://www.instagram.com/theroots.pilates/)
