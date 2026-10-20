@@ -116,6 +116,14 @@ p { margin: 0; }
 .scale label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
 .scale-legend { font-size: 12px; color: var(--muted); }
 
+.rank { display: grid; gap: 10px; }
+.rank-row { display: grid; grid-template-columns: 2em minmax(0, 2fr) minmax(0, 3fr); gap: 4px 14px; align-items: start; padding-bottom: 10px; border-bottom: 1px solid var(--rule); }
+.rank-row:last-child { border-bottom: none; padding-bottom: 0; }
+.rank-n { font-family: var(--font-display); font-size: 24px; line-height: 1.2; color: var(--accent); }
+@media (max-width: 600px) { .rank-row { grid-template-columns: 2em minmax(0, 1fr); } .rank-row .field:last-child { grid-column: 2; } }
+.dig { display: grid; gap: 12px; }
+.dig .dq { font-size: 13px; font-weight: 700; color: var(--ink); }
+.dig .ds { font-size: 13px; color: var(--accent); }
 .guide-notes { display: grid; gap: 4px; font-size: 13px; color: var(--muted); border-top: 1px dashed var(--rule); padding-top: 8px; }
 .guide-notes b { color: var(--ink); font-weight: 700; margin-right: 4px; }
 
@@ -169,7 +177,7 @@ footer { margin-top: 48px; font-size: 12px; color: var(--muted); border-top: 1px
     <h2>当日の流れ（目安）</h2>
     <ol>
       <li><strong>受付・基本情報の記入</strong><span>5分・お客様</span></li>
-      <li><strong>ヒアリング 1〜5</strong><span>10分・スタッフ</span></li>
+      <li><strong>ヒアリング 1〜5</strong><span>12〜15分・スタッフ</span></li>
       <li><strong>姿勢・動きのチェック</strong><span>5分・スタッフ</span></li>
       <li><strong>体験レッスン</strong><span>45〜50分</span></li>
       <li><strong>振り返り・ご案内</strong><span>10分・スタッフ</span></li>
@@ -185,10 +193,11 @@ footer { margin-top: 48px; font-size: 12px; color: var(--muted); border-top: 1px
   <!-- ===== 1 ===== -->
   <section class="step" id="basic">
     <div class="step-head">
-      <span class="num">01</span><h2>基本情報</h2><span class="who">お客様が記入</span><span class="time">5 min</span>
+      <span class="num">01</span><h2>基本情報・来店のきっかけ</h2><span class="who">記入＋スタッフが質問</span><span class="time">5 min</span>
     </div>
-    <p class="step-intro guide">受付で用紙を渡し、記入してもらいます。受け取ったら空欄がないかだけ確認し、内容はステップ2以降で口頭で補います。</p>
+    <p class="step-intro guide">受付で用紙を渡し、記入してもらいます。受け取ったら空欄がないかだけ確認し、内容はステップ2以降で口頭で補います。続けて1-2の来店のきっかけを質問します。</p>
     <div class="q">
+      <h3><span class="qn">1-1</span>基本情報（お客様が記入）</h3>
       <div class="fields">
         <label class="field"><span>お名前</span><input id="b-name" type="text"></label>
         <label class="field"><span>ふりがな</span><input id="b-kana" type="text"></label>
@@ -199,16 +208,29 @@ footer { margin-top: 48px; font-size: 12px; color: var(--muted); border-top: 1px
         <label class="field"><span>身長（任意）</span><input id="b-height" type="text" placeholder="cm"></label>
         <label class="field"><span>ご職業・お仕事の内容</span><input id="b-job" type="text"></label>
       </div>
-      <div class="field"><span>当スタジオを知ったきっかけ</span>
-        <div class="opts">
-          <label><input type="checkbox" id="b-src-ig"> Instagram</label>
-          <label><input type="checkbox" id="b-src-web"> ホームページ・検索</label>
-          <label><input type="checkbox" id="b-src-map"> Googleマップ</label>
-          <label><input type="checkbox" id="b-src-ref"> 知人の紹介</label>
-          <label><input type="checkbox" id="b-src-flyer"> チラシ・看板</label>
-          <label><input type="checkbox" id="b-src-other"> その他</label>
-        </div>
+    </div>
+
+    <div class="q">
+      <h3><span class="qn">1-2</span>来店のきっかけ<span class="req">必須</span></h3>
+      <p class="say guide">「今日はご来店ありがとうございます。当スタジオは何で知っていただきましたか？」</p>
+      <div class="opts">
+        <label><input type="checkbox" id="b-src-google"> Google検索</label>
+        <label><input type="checkbox" id="b-src-map"> Googleマップ</label>
+        <label><input type="checkbox" id="b-src-ig"> Instagram</label>
+        <label><input type="checkbox" id="b-src-ad"> 広告（Web・SNS広告）</label>
+        <label><input type="checkbox" id="b-src-ref"> ご紹介</label>
+        <label><input type="checkbox" id="b-src-flyer"> チラシ・看板・通りがかり</label>
+        <label><input type="checkbox" id="b-src-portal"> 予約サイト・ポータル</label>
+        <label><input type="checkbox" id="b-src-other"> その他</label>
       </div>
+      <div class="fields">
+        <label class="field"><span>詳細（検索した言葉／見た投稿・広告／紹介者のお名前）</span><input id="b-src-detail" type="text"></label>
+        <label class="field"><span>ほかのスタジオではなく、ここに決めた理由</span><input id="b-src-why" type="text"></label>
+      </div>
+      <p class="guide-notes guide">
+        <span><b>深掘り</b>Google →「どんな言葉で検索されましたか？」／ Instagram →「どの投稿をご覧になりましたか？」／ 広告 →「どこで見かけましたか？」／ 紹介 →「どなたからのご紹介ですか？」</span>
+        <span><b>聞く理由</b>集客の効果測定に使います。複数あてはまる場合は、予約を決めた一番のきっかけに◎を付けてください。紹介の場合は紹介者へのお礼にもつなげます。</span>
+      </p>
     </div>
   </section>
 
@@ -317,20 +339,20 @@ footer { margin-top: 48px; font-size: 12px; color: var(--muted); border-top: 1px
   <!-- ===== 3 ===== -->
   <section class="step" id="goal">
     <div class="step-head">
-      <span class="num">03</span><h2>目的・お悩み</h2><span class="who">スタッフが質問</span><span class="time">3 min</span>
+      <span class="num">03</span><h2>お悩み・目的の深掘り</h2><span class="who">スタッフが質問</span><span class="time">5 min</span>
     </div>
-    <p class="step-intro guide">体験の内容と、最後のご案内の両方の軸になる項目です。ここに一番時間をかけてください。</p>
+    <p class="step-intro guide">体験の内容と、最後のご案内の両方の軸になる項目です。ここに一番時間をかけてください。お悩みを全部出してもらい、優先順位を3つ付け、1位のお悩みを深掘りする流れです。</p>
 
     <div class="q">
-      <h3><span class="qn">3-1</span>ピラティスを始めようと思ったきっかけ<span class="req">必須</span></h3>
-      <p class="say guide">「今回、ピラティスをやってみようと思ったきっかけは何でしたか？」</p>
+      <h3><span class="qn">3-1</span>お悩みをすべて出す<span class="req">必須</span></h3>
+      <p class="say guide">「体のことで気になっていること、良くしたいことを、いくつでも教えてください。」</p>
       <div class="opts">
         <label><input type="checkbox" id="g1-posture"> 姿勢を良くしたい</label>
-        <label><input type="checkbox" id="g1-back"> 腰痛を改善したい</label>
+        <label><input type="checkbox" id="g1-back"> 腰痛</label>
         <label><input type="checkbox" id="g1-neck"> 肩こり・首こり</label>
         <label><input type="checkbox" id="g1-body"> ボディライン・引き締め</label>
         <label><input type="checkbox" id="g1-weight"> 体重を落としたい</label>
-        <label><input type="checkbox" id="g1-flex"> 体を柔らかくしたい</label>
+        <label><input type="checkbox" id="g1-flex"> 体が硬い</label>
         <label><input type="checkbox" id="g1-core"> 体幹を鍛えたい</label>
         <label><input type="checkbox" id="g1-sport"> スポーツのパフォーマンス</label>
         <label><input type="checkbox" id="g1-postnatal"> 産後の体型・不調</label>
@@ -338,25 +360,48 @@ footer { margin-top: 48px; font-size: 12px; color: var(--muted); border-top: 1px
         <label><input type="checkbox" id="g1-stress"> リフレッシュ・ストレス解消</label>
         <label><input type="checkbox" id="g1-age"> 年齢に合わせた体づくり</label>
       </div>
+      <label class="field"><span>その他・お客様の言葉のまま</span><input id="g1-other" type="text"></label>
+      <p class="guide-notes guide"><span><b>深掘り</b>「ほかにはありますか？」をもう一度聞くと、本当のお悩みが後から出てくることがよくあります。</span></p>
     </div>
 
     <div class="q">
-      <h3><span class="qn">3-2</span>理想の状態<span class="req">必須</span></h3>
-      <p class="say guide">「それが良くなったら、どんなことができるようになりたいですか？　例えば3か月後、どうなっていたら嬉しいですか？」</p>
-      <label class="field"><span>お客様の言葉のまま記入</span><textarea id="g2-ideal" rows="2"></textarea></label>
+      <h3><span class="qn">3-2</span>優先順位 TOP3 とその理由<span class="req">必須</span></h3>
+      <p class="say guide">「この中で、特に良くしたいものを3つ選んで、順番を付けるとしたらどうなりますか？　それぞれ、なぜそれを良くしたいのかも教えてください。」</p>
+      <div class="rank">
+        <div class="rank-row">
+          <span class="rank-n">1</span>
+          <label class="field"><span>お悩み</span><input id="g2-1" type="text"></label>
+          <label class="field"><span>理由（なぜ良くしたいか・困っている場面）</span><textarea id="g2-1r" rows="2"></textarea></label>
+        </div>
+        <div class="rank-row">
+          <span class="rank-n">2</span>
+          <label class="field"><span>お悩み</span><input id="g2-2" type="text"></label>
+          <label class="field"><span>理由（なぜ良くしたいか・困っている場面）</span><textarea id="g2-2r" rows="2"></textarea></label>
+        </div>
+        <div class="rank-row">
+          <span class="rank-n">3</span>
+          <label class="field"><span>お悩み</span><input id="g2-3" type="text"></label>
+          <label class="field"><span>理由（なぜ良くしたいか・困っている場面）</span><textarea id="g2-3r" rows="2"></textarea></label>
+        </div>
+      </div>
       <p class="guide-notes guide">
-        <span><b>深掘り</b>「なぜ今、始めようと思われたんですか？」「これまでに試したことはありますか？　続かなかった理由は何でしたか？」</span>
-        <span><b>聞く理由</b>「姿勢を良くしたい」の先にある具体的な場面（写真に写った姿、子どもを抱っこしても腰が痛くない、など）が分かると、体験中の声かけとご案内が具体的になります。</span>
+        <span><b>深掘り</b>「どうしてそれが1番なんですか？」「それで一番困るのはどんな時ですか？」</span>
+        <span><b>聞く理由</b>理由の欄には、お客様の言葉をそのまま書きます。体験後の振り返り（7-3）で、この言葉を使って提案します。</span>
       </p>
     </div>
 
     <div class="q">
-      <h3><span class="qn">3-3</span>優先順位</h3>
-      <p class="say guide">「いくつか挙げていただいた中で、一番良くしたいものはどれですか？」</p>
-      <div class="fields">
-        <label class="field"><span>1位</span><input id="g3-1" type="text"></label>
-        <label class="field"><span>2位</span><input id="g3-2" type="text"></label>
+      <h3><span class="qn">3-3</span>1位のお悩みを深掘り<span class="req">必須</span></h3>
+      <p class="say guide">「1番のお悩みについて、もう少し詳しく聞かせてください。」</p>
+      <div class="dig">
+        <label class="field"><span class="dq">いつから？</span><span class="ds guide">「それはいつ頃から気になっていますか？　何かきっかけはありましたか？」</span><input id="g3-since" type="text"></label>
+        <label class="field"><span class="dq">どんな時に困る？</span><span class="ds guide">「どんな時に一番気になりますか？　お仕事中、朝起きた時、鏡を見た時など。」</span><input id="g3-scene" type="text"></label>
+        <label class="field"><span class="dq">これまで試したこと</span><span class="ds guide">「これまでに何か試したことはありますか？　その時はどうでしたか？　続かなかった理由は何でしたか？」</span><input id="g3-tried" type="text"></label>
+        <label class="field"><span class="dq">このままだと？</span><span class="ds guide">「このまま何もしないと、どうなりそうで心配ですか？」</span><input id="g3-worry" type="text"></label>
+        <label class="field"><span class="dq">なぜ今？</span><span class="ds guide">「数ある中で、今このタイミングで始めようと思われたのはなぜですか？」</span><input id="g3-now" type="text"></label>
+        <label class="field"><span class="dq">理想の状態</span><span class="ds guide">「それが良くなったら、何をしたいですか？　3か月後、どうなっていたら嬉しいですか？」</span><textarea id="g3-ideal" rows="2"></textarea></label>
       </div>
+      <p class="guide-notes guide"><span><b>ポイント</b>相づちと「それは大変でしたね」などの共感をはさみ、尋問のようにならないようにします。時間がなければ「いつから」「どんな時に困る」「理想の状態」の3つを優先します。</span></p>
     </div>
   </section>
 
@@ -405,9 +450,37 @@ footer { margin-top: 48px; font-size: 12px; color: var(--muted); border-top: 1px
   <!-- ===== 5 ===== -->
   <section class="step" id="schedule">
     <div class="step-head">
-      <span class="num">05</span><h2>通い方のイメージ</h2><span class="who">スタッフが質問</span><span class="time">1 min</span>
+      <span class="num">05</span><h2>通い方のイメージ</h2><span class="who">スタッフが質問</span><span class="time">2 min</span>
     </div>
     <div class="q">
+      <h3><span class="qn">5-1</span>移動手段・移動時間<span class="req">必須</span></h3>
+      <p class="say guide">「今日はどうやって来られましたか？　どのくらい時間がかかりましたか？」</p>
+      <div class="field"><span>移動手段</span>
+        <div class="opts">
+          <label><input type="checkbox" id="t-walk"> 徒歩</label>
+          <label><input type="checkbox" id="t-bike"> 自転車</label>
+          <label><input type="checkbox" id="t-car"> 車</label>
+          <label><input type="checkbox" id="t-train"> 電車</label>
+          <label><input type="checkbox" id="t-bus"> バス</label>
+          <label><input type="checkbox" id="t-other"> その他</label>
+        </div>
+      </div>
+      <div class="field"><span>片道の移動時間</span>
+        <div class="opts">
+          <label><input type="checkbox" id="t-m10"> 10分以内</label>
+          <label><input type="checkbox" id="t-m20"> 10〜20分</label>
+          <label><input type="checkbox" id="t-m30"> 20〜30分</label>
+          <label><input type="checkbox" id="t-m60"> 30分以上</label>
+        </div>
+      </div>
+      <div class="fields">
+        <label class="field"><span>出発地（自宅・職場・最寄り駅など）</span><input id="t-from" type="text"></label>
+        <label class="field"><span>実際の時間（分）</span><input id="t-min" type="text" inputmode="numeric"></label>
+      </div>
+      <p class="guide-notes guide"><span><b>聞く理由</b>通いやすさは継続に直結します。車の方には駐車場、仕事帰りの方には夜の時間帯をご案内します。集客エリアの分析にも使います。</span></p>
+    </div>
+    <div class="q">
+      <h3><span class="qn">5-2</span>通う頻度・時間帯</h3>
       <p class="say guide">「もし続けるとしたら、週に何回くらい、どの曜日・時間帯なら通いやすそうですか？」</p>
       <div class="field"><span>希望の頻度</span>
         <div class="opts">
@@ -527,7 +600,7 @@ footer { margin-top: 48px; font-size: 12px; color: var(--muted); border-top: 1px
 
     <div class="q">
       <h3><span class="qn">7-3</span>続けた場合のイメージを共有</h3>
-      <p class="say guide">「最初に『（ステップ3の理想の状態）』とおっしゃっていましたよね。今日の〇〇の動きは、ちょうどそこに効いてくる動きです。週〇回のペースで続けると、〇か月後には△△を目指せます。」</p>
+      <p class="say guide">「最初に、1番のお悩みは『（3-2の1位）』で、理由は『（3-2の理由）』とおっしゃっていましたよね。今日の〇〇の動きは、ちょうどそこに効いてくる動きです。週〇回のペースで続けると、〇か月後には△△を目指せます。」</p>
       <p class="guide-notes guide"><span><b>ポイント</b>提案するプランは1つに絞り、ステップ5で聞いた頻度に合わせます。その場で決められない方には、検討期間と次の連絡方法を確認します。</span></p>
       <div class="opts">
         <label><input type="checkbox" id="a3-join"> 入会</label>
