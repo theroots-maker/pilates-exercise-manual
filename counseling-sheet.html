@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: エクササイズマニュアルと同じ手帳トーン。上から「流れ → 1〜7の質問ブロック → 体験後」の順に、聞く順番そのままで並ぶ。各ブロックは「話す言葉 → 記入欄 → 聞く理由・深掘り」。 */
+/* Layout: エクササイズマニュアルと同じ手帳トーン。Googleフォームの質問順そのままに 01〜08 のブロックが並び、その後に姿勢チェック・体験後。各ブロックは「話す言葉 → 記入欄 → 聞く理由・深掘り」。 */
 :root {
   --bg: #f4f6f4;
   --paper: #ffffff;
@@ -124,6 +124,9 @@ p { margin: 0; }
 .dig { display: grid; gap: 12px; }
 .dig .dq { font-size: 13px; font-weight: 700; color: var(--ink); }
 .dig .ds { font-size: 13px; color: var(--accent); }
+.group { display: grid; gap: 4px; }
+.group + .group { margin-top: 6px; }
+.group-label { font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: .04em; }
 .guide-notes { display: grid; gap: 4px; font-size: 13px; color: var(--muted); border-top: 1px dashed var(--rule); padding-top: 8px; }
 .guide-notes b { color: var(--ink); font-weight: 700; margin-right: 4px; }
 
@@ -164,7 +167,7 @@ footer { margin-top: 48px; font-size: 12px; color: var(--muted); border-top: 1px
   <header class="masthead">
     <div class="eyebrow">Trial Counseling Sheet</div>
     <h1>体験カウンセリングシート</h1>
-    <p class="lead">初めてスタジオに来たお客様の体験前ヒアリング用です。上から順に、緑の枠の「話す言葉」をそのまま読み、答えを下の欄に記入してください。赤い枠は、運動を控える・内容を変える判断が必要なサインです。</p>
+    <p class="lead">初めてスタジオに来たお客様の体験前ヒアリング用です。01〜08 は事前アンケート（Googleフォーム）と同じ順番です。緑の枠の「話す言葉」をそのまま読み、答えを下の欄に記入してください。赤い枠は、運動を控える・医療機関の確認をすすめる判断が必要なサインです。</p>
     <a class="backlink" href="index.html">← エクササイズマニュアルへ</a>
   </header>
 
@@ -176,458 +179,529 @@ footer { margin-top: 48px; font-size: 12px; color: var(--muted); border-top: 1px
   <section class="flow guide" aria-label="当日の流れ">
     <h2>当日の流れ（目安）</h2>
     <ol>
-      <li><strong>受付・基本情報の記入</strong><span>5分・お客様</span></li>
-      <li><strong>ヒアリング 1〜5</strong><span>12〜15分・スタッフ</span></li>
-      <li><strong>姿勢・動きのチェック</strong><span>5分・スタッフ</span></li>
+      <li><strong>受付・フォーム回答の確認</strong><span>3分・お客様</span></li>
+      <li><strong>ヒアリング 01〜08</strong><span>15分・スタッフ</span></li>
+      <li><strong>姿勢・動きのチェック 09</strong><span>5分・スタッフ</span></li>
       <li><strong>体験レッスン</strong><span>45〜50分</span></li>
-      <li><strong>振り返り・ご案内</strong><span>10分・スタッフ</span></li>
+      <li><strong>振り返り・ご提案 10</strong><span>10分・スタッフ</span></li>
     </ol>
     <ul class="principles">
-      <li>最初に「この時間は体の状態を知るためのものです」と目的を伝えると、お客様が話しやすくなります。</li>
-      <li>選択肢を読み上げるより、まず自由に話してもらい、こちらでチェックを付けるほうが自然です。</li>
-      <li>健康状態（ステップ2）は、話が盛り上がっても必ず全項目を確認します。</li>
-      <li>料金や入会の話はヒアリング中にはせず、体験後のステップ7で行います。</li>
+      <li>最初に「この時間はお体の状態を知るためのものです」と目的を伝えると、お客様が話しやすくなります。</li>
+      <li>フォームに回答済みなら、回答を見ながら「確認」と「深掘り」だけを行います。同じ質問を一から繰り返さないようにします。</li>
+      <li>04 のお悩みには一番時間をかけます。優先順位 TOP3 と理由は必ず記録します。</li>
+      <li>07 の安全確認は、話が盛り上がっても必ず行います。</li>
+      <li>料金や入会の話はヒアリング中にはせず、体験後の 10 で行います。</li>
     </ul>
   </section>
 
-  <!-- ===== 1 ===== -->
   <section class="step" id="basic">
     <div class="step-head">
-      <span class="num">01</span><h2>基本情報・来店のきっかけ</h2><span class="who">記入＋スタッフが質問</span><span class="time">5 min</span>
+      <span class="num">01</span><h2>基本情報</h2><span class="who">フォーム項目</span><span class="time">2 min</span>
     </div>
-    <p class="step-intro guide">受付で用紙を渡し、記入してもらいます。受け取ったら空欄がないかだけ確認し、内容はステップ2以降で口頭で補います。続けて1-2の来店のきっかけを質問します。</p>
+    <p class="step-intro guide">フォームに回答済みの場合は、回答を見ながら読み方と空欄だけ確認します。未回答の場合は、この順番で聞いて記入します。</p>
     <div class="q">
-      <h3><span class="qn">1-1</span>基本情報（お客様が記入）</h3>
+      <h3><span class="qn">1-1</span>お名前・住所・生年月日・血液型<span class="req">必須</span></h3>
+      <p class="say guide">「本日はご来店ありがとうございます。最初に、ご記入いただいた内容を一緒に確認させてください。お名前は〇〇様でお間違いないですか？」</p>
       <div class="fields">
         <label class="field"><span>お名前</span><input id="b-name" type="text"></label>
-        <label class="field"><span>ふりがな</span><input id="b-kana" type="text"></label>
-        <label class="field"><span>生年月日（年齢）</span><input id="b-birth" type="text" placeholder="　年　月　日（　歳）"></label>
-        <label class="field"><span>電話番号</span><input id="b-tel" type="tel"></label>
-        <label class="field"><span>メールアドレス</span><input id="b-mail" type="email"></label>
-        <label class="field"><span>緊急連絡先（お名前・続柄・電話）</span><input id="b-emergency" type="text"></label>
-        <label class="field"><span>身長（任意）</span><input id="b-height" type="text" placeholder="cm"></label>
-        <label class="field"><span>ご職業・お仕事の内容</span><input id="b-job" type="text"></label>
-      </div>
-    </div>
-
-    <div class="q">
-      <h3><span class="qn">1-2</span>来店のきっかけ<span class="req">必須</span></h3>
-      <p class="say guide">「今日はご来店ありがとうございます。当スタジオは何で知っていただきましたか？」</p>
-      <div class="opts">
-        <label><input type="checkbox" id="b-src-google"> Google検索</label>
-        <label><input type="checkbox" id="b-src-map"> Googleマップ</label>
-        <label><input type="checkbox" id="b-src-ig"> Instagram</label>
-        <label><input type="checkbox" id="b-src-ad"> 広告（Web・SNS広告）</label>
-        <label><input type="checkbox" id="b-src-ref"> ご紹介</label>
-        <label><input type="checkbox" id="b-src-flyer"> チラシ・看板・通りがかり</label>
-        <label><input type="checkbox" id="b-src-portal"> 予約サイト・ポータル</label>
-        <label><input type="checkbox" id="b-src-other"> その他</label>
+        <label class="field"><span>生年月日</span><input id="b-birth" type="text" placeholder="　年　月　日（　歳）"></label>
       </div>
       <div class="fields">
-        <label class="field"><span>詳細（検索した言葉／見た投稿・広告／紹介者のお名前）</span><input id="b-src-detail" type="text"></label>
-        <label class="field"><span>ほかのスタジオではなく、ここに決めた理由</span><input id="b-src-why" type="text"></label>
+        <label class="field"><span>住所（全て）</span><input id="b-addr" type="text"></label>
       </div>
-      <p class="guide-notes guide">
-        <span><b>深掘り</b>Google →「どんな言葉で検索されましたか？」／ Instagram →「どの投稿をご覧になりましたか？」／ 広告 →「どこで見かけましたか？」／ 紹介 →「どなたからのご紹介ですか？」</span>
-        <span><b>聞く理由</b>集客の効果測定に使います。複数あてはまる場合は、予約を決めた一番のきっかけに◎を付けてください。紹介の場合は紹介者へのお礼にもつなげます。</span>
-      </p>
-    </div>
-  </section>
-
-  <!-- ===== 2 ===== -->
-  <section class="step" id="health">
-    <div class="step-head">
-      <span class="num">02</span><h2>健康状態・痛み</h2><span class="who">スタッフが質問</span><span class="time">4 min</span>
-    </div>
-    <p class="step-intro guide">安全に体験してもらうための最優先項目です。省略せず、上から順にすべて確認します。</p>
-
-    <div class="q">
-      <h3><span class="qn">2-1</span>今日の体調<span class="req">必須</span></h3>
-      <p class="say guide">「まず今日の体調を教えてください。昨夜はよく眠れましたか？　お食事は何時ごろとられましたか？」</p>
+      <div class="field"><span>血液型</span>
       <div class="opts">
-        <label><input type="checkbox" id="h1-good"> 良い</label>
-        <label><input type="checkbox" id="h1-normal"> ふつう</label>
-        <label><input type="checkbox" id="h1-tired"> 疲れ・寝不足</label>
-        <label><input type="checkbox" id="h1-meal"> 直前（1時間以内）に食事</label>
-        <label><input type="checkbox" id="h1-cold"> 風邪気味・発熱</label>
+        <label><input type="radio" id="b-blood-1" name="blood"> A</label>
+        <label><input type="radio" id="b-blood-2" name="blood"> B</label>
+        <label><input type="radio" id="b-blood-3" name="blood"> O</label>
+        <label><input type="radio" id="b-blood-4" name="blood"> AB</label>
+        <label><input type="radio" id="b-blood-5" name="blood"> 不明</label>
       </div>
-      <p class="guide-notes guide"><span><b>聞く理由</b>寝不足や空腹・満腹は、めまいや気分不良の原因になります。強度を下げる、うつ伏せ種目を減らすなどの判断材料にします。</span></p>
-    </div>
-
-    <div class="q">
-      <h3><span class="qn">2-2</span>現在の痛み・違和感<span class="req">必須</span></h3>
-      <p class="say guide">「今、体のどこかに痛みや違和感はありますか？　ふだん気になっている場所でも大丈夫です。」</p>
-      <div class="opts">
-        <label><input type="checkbox" id="h2-none"> なし</label>
-        <label><input type="checkbox" id="h2-neck"> 首</label>
-        <label><input type="checkbox" id="h2-shoulder"> 肩</label>
-        <label><input type="checkbox" id="h2-upper"> 背中</label>
-        <label><input type="checkbox" id="h2-low"> 腰</label>
-        <label><input type="checkbox" id="h2-hip"> 股関節</label>
-        <label><input type="checkbox" id="h2-knee"> 膝</label>
-        <label><input type="checkbox" id="h2-ankle"> 足首・足</label>
-        <label><input type="checkbox" id="h2-wrist"> 手首・ひじ</label>
       </div>
-      <div class="field"><span>痛みの強さ（いちばん強いところ）</span>
-        <div class="scale" role="radiogroup" aria-label="痛みの強さ 0から10">
-          <label><input type="radio" name="pain" id="h2-p0">0</label><label><input type="radio" name="pain" id="h2-p1">1</label><label><input type="radio" name="pain" id="h2-p2">2</label><label><input type="radio" name="pain" id="h2-p3">3</label><label><input type="radio" name="pain" id="h2-p4">4</label><label><input type="radio" name="pain" id="h2-p5">5</label><label><input type="radio" name="pain" id="h2-p6">6</label><label><input type="radio" name="pain" id="h2-p7">7</label><label><input type="radio" name="pain" id="h2-p8">8</label><label><input type="radio" name="pain" id="h2-p9">9</label><label><input type="radio" name="pain" id="h2-p10">10</label>
-        </div>
-        <span class="scale-legend">0 = 痛みなし　10 = 想像できる最大の痛み</span>
-      </div>
-      <div class="fields">
-        <label class="field"><span>いつから</span><input id="h2-since" type="text"></label>
-        <label class="field"><span>どんな時に痛むか（動作・時間帯）</span><input id="h2-when" type="text"></label>
-      </div>
-      <p class="guide-notes guide">
-        <span><b>深掘り</b>「いつごろからですか？」「どんな動きをすると痛みますか？　前かがみ・反る・ひねる、どれが一番つらいですか？」「病院で診てもらったことはありますか？」</span>
-        <span><b>聞く理由</b>痛む方向の動き（屈曲・伸展・回旋）を避けて種目を選ぶためです。マニュアル各カードの「注意・禁忌」と照らし合わせます。</span>
-      </p>
-    </div>
-
-    <div class="q">
-      <h3><span class="qn">2-3</span>通院・既往歴・手術歴<span class="req">必須</span></h3>
-      <p class="say guide">「今、通院されていることや、お医者さんから運動について何か言われていることはありますか？　過去の大きなケガや手術も教えてください。」</p>
-      <div class="opts">
-        <label><input type="checkbox" id="h3-none"> 特になし</label>
-        <label><input type="checkbox" id="h3-hernia"> 椎間板ヘルニア</label>
-        <label><input type="checkbox" id="h3-stenosis"> 脊柱管狭窄症</label>
-        <label><input type="checkbox" id="h3-spondy"> すべり症・分離症</label>
-        <label><input type="checkbox" id="h3-scoliosis"> 側弯症</label>
-        <label><input type="checkbox" id="h3-osteo"> 骨粗鬆症</label>
-        <label><input type="checkbox" id="h3-bp"> 高血圧</label>
-        <label><input type="checkbox" id="h3-heart"> 心疾患</label>
-        <label><input type="checkbox" id="h3-dm"> 糖尿病</label>
-        <label><input type="checkbox" id="h3-asthma"> 喘息</label>
-        <label><input type="checkbox" id="h3-ra"> 関節リウマチ</label>
-        <label><input type="checkbox" id="h3-fracture"> 骨折歴</label>
-        <label><input type="checkbox" id="h3-surgery"> 手術歴</label>
-      </div>
-      <div class="fields">
-        <label class="field"><span>詳細（部位・時期・医師からの指示）</span><input id="h3-detail" type="text"></label>
-        <label class="field"><span>服用中のお薬（血圧・血液をサラサラにする薬など）</span><input id="h3-med" type="text"></label>
-      </div>
-      <p class="guide-notes guide"><span><b>聞く理由</b>骨粗鬆症は背骨を丸める・ひねる動きに強い負荷をかけない、高血圧は頭を下げる姿勢や息止めを避ける、など種目選びが変わります。</span></p>
-    </div>
-
-    <div class="q">
-      <h3><span class="qn">2-4</span>妊娠・出産（該当する方のみ）</h3>
-      <p class="say guide">「差し支えなければ教えてください。現在妊娠中、または出産から1年以内ということはありますか？」</p>
-      <div class="opts">
-        <label><input type="checkbox" id="h4-na"> 該当なし</label>
-        <label><input type="checkbox" id="h4-preg"> 妊娠中（　週）</label>
-        <label><input type="checkbox" id="h4-post"> 産後（　か月）</label>
-        <label><input type="checkbox" id="h4-cs"> 帝王切開</label>
-        <label><input type="checkbox" id="h4-dr"> 腹直筋離開を指摘された</label>
-        <label><input type="checkbox" id="h4-pf"> 尿もれ・骨盤底の不調</label>
-      </div>
-      <p class="guide-notes guide"><span><b>話し方</b>全員に同じ言い方で聞き、答えたくない場合は無理に聞きません。産後の方には「産後健診で運動の許可は出ていますか？」も確認します。</span></p>
-    </div>
-
-    <div class="flag guide">
-      <h3>体験を見合わせる・医師の許可を確認するサイン</h3>
-      <ul>
-        <li>胸の痛み、息切れ、めまい、発熱がある（当日は体験を中止し、日程を変更）</li>
-        <li>痛みが 7 以上、安静にしていても痛い、夜間に痛む、しびれが広がっている</li>
-        <li>医師から運動を止められている、治療中で運動の可否を確認していない</li>
-        <li>妊娠中（特に初期）、産後の健診前（目安：産後6〜8週以内）</li>
-        <li>コントロールされていない高血圧・心疾患</li>
-      </ul>
-      <p style="margin-top:6px">迷ったら一人で判断せず、責任者に相談してください。体験を行う場合も、該当する種目の「注意・禁忌」を避けたメニューにします。</p>
-    </div>
-  </section>
-
-  <!-- ===== 3 ===== -->
-  <section class="step" id="goal">
-    <div class="step-head">
-      <span class="num">03</span><h2>お悩み・目的の深掘り</h2><span class="who">スタッフが質問</span><span class="time">5 min</span>
-    </div>
-    <p class="step-intro guide">体験の内容と、最後のご案内の両方の軸になる項目です。ここに一番時間をかけてください。お悩みを全部出してもらい、優先順位を3つ付け、1位のお悩みを深掘りする流れです。</p>
-
-    <div class="q">
-      <h3><span class="qn">3-1</span>お悩みをすべて出す<span class="req">必須</span></h3>
-      <p class="say guide">「体のことで気になっていること、良くしたいことを、いくつでも教えてください。」</p>
-      <div class="opts">
-        <label><input type="checkbox" id="g1-posture"> 姿勢を良くしたい</label>
-        <label><input type="checkbox" id="g1-back"> 腰痛</label>
-        <label><input type="checkbox" id="g1-neck"> 肩こり・首こり</label>
-        <label><input type="checkbox" id="g1-body"> ボディライン・引き締め</label>
-        <label><input type="checkbox" id="g1-weight"> 体重を落としたい</label>
-        <label><input type="checkbox" id="g1-flex"> 体が硬い</label>
-        <label><input type="checkbox" id="g1-core"> 体幹を鍛えたい</label>
-        <label><input type="checkbox" id="g1-sport"> スポーツのパフォーマンス</label>
-        <label><input type="checkbox" id="g1-postnatal"> 産後の体型・不調</label>
-        <label><input type="checkbox" id="g1-rehab"> ケガ・リハビリ後の運動</label>
-        <label><input type="checkbox" id="g1-stress"> リフレッシュ・ストレス解消</label>
-        <label><input type="checkbox" id="g1-age"> 年齢に合わせた体づくり</label>
-      </div>
-      <label class="field"><span>その他・お客様の言葉のまま</span><input id="g1-other" type="text"></label>
-      <p class="guide-notes guide"><span><b>深掘り</b>「ほかにはありますか？」をもう一度聞くと、本当のお悩みが後から出てくることがよくあります。</span></p>
-    </div>
-
-    <div class="q">
-      <h3><span class="qn">3-2</span>優先順位 TOP3 とその理由<span class="req">必須</span></h3>
-      <p class="say guide">「この中で、特に良くしたいものを3つ選んで、順番を付けるとしたらどうなりますか？　それぞれ、なぜそれを良くしたいのかも教えてください。」</p>
-      <div class="rank">
-        <div class="rank-row">
-          <span class="rank-n">1</span>
-          <label class="field"><span>お悩み</span><input id="g2-1" type="text"></label>
-          <label class="field"><span>理由（なぜ良くしたいか・困っている場面）</span><textarea id="g2-1r" rows="2"></textarea></label>
-        </div>
-        <div class="rank-row">
-          <span class="rank-n">2</span>
-          <label class="field"><span>お悩み</span><input id="g2-2" type="text"></label>
-          <label class="field"><span>理由（なぜ良くしたいか・困っている場面）</span><textarea id="g2-2r" rows="2"></textarea></label>
-        </div>
-        <div class="rank-row">
-          <span class="rank-n">3</span>
-          <label class="field"><span>お悩み</span><input id="g2-3" type="text"></label>
-          <label class="field"><span>理由（なぜ良くしたいか・困っている場面）</span><textarea id="g2-3r" rows="2"></textarea></label>
-        </div>
-      </div>
-      <p class="guide-notes guide">
-        <span><b>深掘り</b>「どうしてそれが1番なんですか？」「それで一番困るのはどんな時ですか？」</span>
-        <span><b>聞く理由</b>理由の欄には、お客様の言葉をそのまま書きます。体験後の振り返り（7-3）で、この言葉を使って提案します。</span>
-      </p>
-    </div>
-
-    <div class="q">
-      <h3><span class="qn">3-3</span>1位のお悩みを深掘り<span class="req">必須</span></h3>
-      <p class="say guide">「1番のお悩みについて、もう少し詳しく聞かせてください。」</p>
-      <div class="dig">
-        <label class="field"><span class="dq">いつから？</span><span class="ds guide">「それはいつ頃から気になっていますか？　何かきっかけはありましたか？」</span><input id="g3-since" type="text"></label>
-        <label class="field"><span class="dq">どんな時に困る？</span><span class="ds guide">「どんな時に一番気になりますか？　お仕事中、朝起きた時、鏡を見た時など。」</span><input id="g3-scene" type="text"></label>
-        <label class="field"><span class="dq">これまで試したこと</span><span class="ds guide">「これまでに何か試したことはありますか？　その時はどうでしたか？　続かなかった理由は何でしたか？」</span><input id="g3-tried" type="text"></label>
-        <label class="field"><span class="dq">このままだと？</span><span class="ds guide">「このまま何もしないと、どうなりそうで心配ですか？」</span><input id="g3-worry" type="text"></label>
-        <label class="field"><span class="dq">なぜ今？</span><span class="ds guide">「数ある中で、今このタイミングで始めようと思われたのはなぜですか？」</span><input id="g3-now" type="text"></label>
-        <label class="field"><span class="dq">理想の状態</span><span class="ds guide">「それが良くなったら、何をしたいですか？　3か月後、どうなっていたら嬉しいですか？」</span><textarea id="g3-ideal" rows="2"></textarea></label>
-      </div>
-      <p class="guide-notes guide"><span><b>ポイント</b>相づちと「それは大変でしたね」などの共感をはさみ、尋問のようにならないようにします。時間がなければ「いつから」「どんな時に困る」「理想の状態」の3つを優先します。</span></p>
-    </div>
-  </section>
-
-  <!-- ===== 4 ===== -->
-  <section class="step" id="experience">
-    <div class="step-head">
-      <span class="num">04</span><h2>運動経験・生活習慣</h2><span class="who">スタッフが質問</span><span class="time">2 min</span>
-    </div>
-
-    <div class="q">
-      <h3><span class="qn">4-1</span>ピラティス・運動の経験</h3>
-      <p class="say guide">「ピラティスはやったことがありますか？　ほかに、今されている運動や、昔されていたスポーツはありますか？」</p>
-      <div class="opts">
-        <label><input type="checkbox" id="e1-none"> ピラティス初めて</label>
-        <label><input type="checkbox" id="e1-mat"> マットピラティス経験あり</label>
-        <label><input type="checkbox" id="e1-machine"> マシンピラティス経験あり</label>
-        <label><input type="checkbox" id="e1-yoga"> ヨガ</label>
-        <label><input type="checkbox" id="e1-gym"> ジム・筋トレ</label>
-        <label><input type="checkbox" id="e1-run"> ランニング・ウォーキング</label>
-        <label><input type="checkbox" id="e1-dance"> ダンス・バレエ</label>
-        <label><input type="checkbox" id="e1-ball"> 球技・その他スポーツ</label>
-      </div>
-      <div class="fields">
-        <label class="field"><span>経験の内容（期間・頻度）</span><input id="e1-detail" type="text"></label>
-        <label class="field"><span>最後に運動したのはいつ頃か</span><input id="e1-last" type="text"></label>
-      </div>
-      <p class="guide-notes guide"><span><b>聞く理由</b>経験と運動量で、スタートのレベル（初級種目のみ／中級を一部入れる）とスプリングの強さを決めます。</span></p>
-    </div>
-
-    <div class="q">
-      <h3><span class="qn">4-2</span>ふだんの過ごし方</h3>
-      <p class="say guide">「お仕事や家事では、座っている時間と立っている時間、どちらが長いですか？　よくする姿勢やクセがあれば教えてください。」</p>
-      <div class="opts">
-        <label><input type="checkbox" id="e2-desk"> デスクワーク中心</label>
-        <label><input type="checkbox" id="e2-stand"> 立ち仕事中心</label>
-        <label><input type="checkbox" id="e2-drive"> 運転が多い</label>
-        <label><input type="checkbox" id="e2-lift"> 重いものを持つ</label>
-        <label><input type="checkbox" id="e2-child"> 育児（抱っこ）</label>
-        <label><input type="checkbox" id="e2-phone"> スマホ時間が長い</label>
-        <label><input type="checkbox" id="e2-sleep"> 睡眠が浅い・短い</label>
-      </div>
-      <label class="field"><span>よくする姿勢・クセ（脚を組む、片側で荷物を持つ など）</span><input id="e2-habit" type="text"></label>
-    </div>
-  </section>
-
-  <!-- ===== 5 ===== -->
-  <section class="step" id="schedule">
-    <div class="step-head">
-      <span class="num">05</span><h2>通い方のイメージ</h2><span class="who">スタッフが質問</span><span class="time">2 min</span>
     </div>
     <div class="q">
-      <h3><span class="qn">5-1</span>移動手段・移動時間<span class="req">必須</span></h3>
-      <p class="say guide">「今日はどうやって来られましたか？　どのくらい時間がかかりましたか？」</p>
+      <h3><span class="qn">1-2</span>移動手段・移動時間<span class="req">必須</span></h3>
+      <p class="say guide">「ご住所は〇〇なんですね。今日はどうやって来られましたか？　どのくらい時間がかかりましたか？」</p>
       <div class="field"><span>移動手段</span>
-        <div class="opts">
-          <label><input type="checkbox" id="t-walk"> 徒歩</label>
-          <label><input type="checkbox" id="t-bike"> 自転車</label>
-          <label><input type="checkbox" id="t-car"> 車</label>
-          <label><input type="checkbox" id="t-train"> 電車</label>
-          <label><input type="checkbox" id="t-bus"> バス</label>
-          <label><input type="checkbox" id="t-other"> その他</label>
-        </div>
+      <div class="opts">
+        <label><input type="checkbox" id="t-1"> 徒歩</label>
+        <label><input type="checkbox" id="t-2"> 自転車</label>
+        <label><input type="checkbox" id="t-3"> 車</label>
+        <label><input type="checkbox" id="t-4"> 電車</label>
+        <label><input type="checkbox" id="t-5"> バス</label>
+        <label><input type="checkbox" id="t-6"> その他</label>
+      </div>
       </div>
       <div class="field"><span>片道の移動時間</span>
-        <div class="opts">
-          <label><input type="checkbox" id="t-m10"> 10分以内</label>
-          <label><input type="checkbox" id="t-m20"> 10〜20分</label>
-          <label><input type="checkbox" id="t-m30"> 20〜30分</label>
-          <label><input type="checkbox" id="t-m60"> 30分以上</label>
-        </div>
+      <div class="opts">
+        <label><input type="checkbox" id="tm-1"> 10分以内</label>
+        <label><input type="checkbox" id="tm-2"> 10〜20分</label>
+        <label><input type="checkbox" id="tm-3"> 20〜30分</label>
+        <label><input type="checkbox" id="tm-4"> 30分以上</label>
+      </div>
       </div>
       <div class="fields">
         <label class="field"><span>出発地（自宅・職場・最寄り駅など）</span><input id="t-from" type="text"></label>
         <label class="field"><span>実際の時間（分）</span><input id="t-min" type="text" inputmode="numeric"></label>
       </div>
-      <p class="guide-notes guide"><span><b>聞く理由</b>通いやすさは継続に直結します。車の方には駐車場、仕事帰りの方には夜の時間帯をご案内します。集客エリアの分析にも使います。</span></p>
-    </div>
-    <div class="q">
-      <h3><span class="qn">5-2</span>通う頻度・時間帯</h3>
-      <p class="say guide">「もし続けるとしたら、週に何回くらい、どの曜日・時間帯なら通いやすそうですか？」</p>
-      <div class="field"><span>希望の頻度</span>
-        <div class="opts">
-          <label><input type="checkbox" id="s-f1"> 月2回</label>
-          <label><input type="checkbox" id="s-f2"> 週1回</label>
-          <label><input type="checkbox" id="s-f3"> 週2回以上</label>
-          <label><input type="checkbox" id="s-f4"> まだ分からない</label>
-        </div>
-      </div>
-      <div class="field"><span>通いやすい時間帯</span>
-        <div class="opts">
-          <label><input type="checkbox" id="s-t1"> 平日朝</label>
-          <label><input type="checkbox" id="s-t2"> 平日昼</label>
-          <label><input type="checkbox" id="s-t3"> 平日夜</label>
-          <label><input type="checkbox" id="s-t4"> 土日祝</label>
-        </div>
-      </div>
-      <div class="field"><span>レッスン形式の希望</span>
-        <div class="opts">
-          <label><input type="checkbox" id="s-p1"> プライベート</label>
-          <label><input type="checkbox" id="s-p2"> グループ</label>
-          <label><input type="checkbox" id="s-p3"> どちらでも</label>
-        </div>
-      </div>
-      <p class="guide-notes guide"><span><b>ポイント</b>ここでは予定の確認だけにとどめ、料金の説明はしません。体験後のご案内で、聞いた頻度に合うプランを1つ提案します。</span></p>
+      <p class="guide-notes guide">
+        <span><b>聞く理由</b>通いやすさは続けられるかどうかに直結します。車の方には駐車場、仕事帰りの方には夜の時間帯をご案内します。どのエリアから来ているかの分析にも使います。</span>
+      </p>
     </div>
   </section>
 
-  <!-- ===== 6 ===== -->
-  <section class="step" id="check">
+  <section class="step" id="source">
     <div class="step-head">
-      <span class="num">06</span><h2>姿勢・動きのチェック</h2><span class="who">スタッフが記入</span><span class="time">5 min</span>
+      <span class="num">02</span><h2>サロンを知ったきっかけ</h2><span class="who">フォーム項目</span><span class="time">1 min</span>
     </div>
-    <p class="step-intro guide">「今の体の状態を一緒に見てみましょう」と声をかけ、正面と横から立ち姿を見ます。気づいたことは、良い点から先に伝えます。</p>
     <div class="q">
-      <div class="field"><span>立位（横から）</span>
-        <div class="opts">
-          <label><input type="checkbox" id="c-head"> 頭が前に出ている</label>
-          <label><input type="checkbox" id="c-round"> 背中が丸い（猫背）</label>
-          <label><input type="checkbox" id="c-sway"> 反り腰</label>
-          <label><input type="checkbox" id="c-flat"> 背中が平ら</label>
-          <label><input type="checkbox" id="c-knee"> 膝が伸びきっている</label>
-        </div>
-      </div>
-      <div class="field"><span>立位（正面・後ろから）</span>
-        <div class="opts">
-          <label><input type="checkbox" id="c-shoulder"> 肩の高さに左右差（高いのは 左・右）</label>
-          <label><input type="checkbox" id="c-pelvis"> 骨盤の高さに左右差</label>
-          <label><input type="checkbox" id="c-weight"> 体重が片脚に寄る</label>
-          <label><input type="checkbox" id="c-kneein"> 膝が内に入る（X脚傾向）</label>
-          <label><input type="checkbox" id="c-kneeout"> 膝が外に開く（O脚傾向）</label>
-        </div>
-      </div>
-      <div class="field"><span>簡単な動き（痛みがある方向は行わない）</span>
-        <div class="opts">
-          <label><input type="checkbox" id="c-rolldown"> ロールダウンで背骨が分節的に動く</label>
-          <label><input type="checkbox" id="c-hamstring"> 前屈で指先が床に届く</label>
-          <label><input type="checkbox" id="c-arm"> 腕を上げると肩がすくむ</label>
-          <label><input type="checkbox" id="c-balance"> 片脚立ち10秒が不安定（左・右）</label>
-          <label><input type="checkbox" id="c-breath"> 胸式呼吸で肋骨が横に広がりにくい</label>
-        </div>
-      </div>
-      <label class="field"><span>気づいたこと・お客様に伝えたこと</span><textarea id="c-memo" rows="2"></textarea></label>
-    </div>
-  </section>
-
-  <!-- ===== Consent ===== -->
-  <section class="step" id="consent">
-    <div class="step-head">
-      <span class="num">—</span><h2>体験前の確認</h2><span class="who">お客様が確認・署名</span>
-    </div>
-    <p class="step-intro guide">ステップ2〜6が終わったら、レッスン前に読み上げて署名をもらいます。</p>
-    <div class="q">
-      <div class="consent">
-        <label><input type="checkbox" id="k-1"> 健康状態について、事実と異なる申告はありません。</label>
-        <label><input type="checkbox" id="k-2"> レッスン中に痛み・気分不良を感じたら、すぐにインストラクターに伝えます。</label>
-        <label><input type="checkbox" id="k-3"> 記入した情報は、レッスンの提供とご連絡のためにのみ使用されることに同意します。</label>
-        <label><input type="checkbox" id="k-4"> 姿勢確認のための写真撮影に同意します（任意・お客様にのみお見せします）。</label>
-      </div>
-      <div class="sign">
-        <label class="field"><span>日付</span><input id="k-date" type="text" placeholder="　年　月　日"></label>
-        <label class="field"><span>ご署名</span><input id="k-sign" type="text"></label>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 7 ===== -->
-  <section class="step" id="after">
-    <div class="step-head">
-      <span class="num">07</span><h2>体験後の振り返り・ご案内</h2><span class="who">スタッフが質問</span><span class="time">10 min</span>
-    </div>
-    <p class="step-intro guide">着替える前、体の感覚が残っているうちに行います。ステップ3で聞いた「理想の状態」につなげて話すのがコツです。</p>
-
-    <div class="q">
-      <h3><span class="qn">7-1</span>感想</h3>
-      <p class="say guide">「お疲れさまでした。やってみて、いかがでしたか？　一番印象に残った動きはどれでしたか？」</p>
-      <label class="field"><span>お客様の言葉</span><textarea id="a1" rows="2"></textarea></label>
-    </div>
-
-    <div class="q">
-      <h3><span class="qn">7-2</span>体の変化</h3>
-      <p class="say guide">「最初に立っていただいた時と比べて、今、立ってみてどうですか？　肩や腰の感じに違いはありますか？」</p>
+      <h3><span class="qn">2-1</span>サロンを知ったきっかけ<span class="req">必須</span></h3>
+      <p class="say guide">「当スタジオは何で知っていただきましたか？」</p>
       <div class="opts">
-        <label><input type="checkbox" id="a2-light"> 体が軽い</label>
-        <label><input type="checkbox" id="a2-tall"> 背が伸びた感じ</label>
-        <label><input type="checkbox" id="a2-pain"> 痛み・こりが楽になった</label>
-        <label><input type="checkbox" id="a2-breath"> 呼吸がしやすい</label>
-        <label><input type="checkbox" id="a2-hard"> きつかった・難しかった</label>
-      </div>
-      <div class="field"><span>痛みの強さ（体験後・ステップ2-2と比較）</span>
-        <div class="scale" role="radiogroup" aria-label="体験後の痛みの強さ 0から10">
-          <label><input type="radio" name="pain-after" id="a2-p0">0</label><label><input type="radio" name="pain-after" id="a2-p1">1</label><label><input type="radio" name="pain-after" id="a2-p2">2</label><label><input type="radio" name="pain-after" id="a2-p3">3</label><label><input type="radio" name="pain-after" id="a2-p4">4</label><label><input type="radio" name="pain-after" id="a2-p5">5</label><label><input type="radio" name="pain-after" id="a2-p6">6</label><label><input type="radio" name="pain-after" id="a2-p7">7</label><label><input type="radio" name="pain-after" id="a2-p8">8</label><label><input type="radio" name="pain-after" id="a2-p9">9</label><label><input type="radio" name="pain-after" id="a2-p10">10</label>
-        </div>
-      </div>
-      <p class="guide-notes guide"><span><b>ポイント</b>体験前に撮った写真があれば、もう一度撮って並べて見せます。痛みが増えた場合は種目と状況を記録し、責任者に共有します。</span></p>
-    </div>
-
-    <div class="q">
-      <h3><span class="qn">7-3</span>続けた場合のイメージを共有</h3>
-      <p class="say guide">「最初に、1番のお悩みは『（3-2の1位）』で、理由は『（3-2の理由）』とおっしゃっていましたよね。今日の〇〇の動きは、ちょうどそこに効いてくる動きです。週〇回のペースで続けると、〇か月後には△△を目指せます。」</p>
-      <p class="guide-notes guide"><span><b>ポイント</b>提案するプランは1つに絞り、ステップ5で聞いた頻度に合わせます。その場で決められない方には、検討期間と次の連絡方法を確認します。</span></p>
-      <div class="opts">
-        <label><input type="checkbox" id="a3-join"> 入会</label>
-        <label><input type="checkbox" id="a3-think"> 検討中</label>
-        <label><input type="checkbox" id="a3-no"> 見送り</label>
+        <label><input type="checkbox" id="src-1"> Instagramアカウントから</label>
+        <label><input type="checkbox" id="src-2"> Googleクチコミを見て</label>
+        <label><input type="checkbox" id="src-3"> 広告を見て</label>
+        <label><input type="checkbox" id="src-4"> グループ店で知った</label>
+        <label><input type="checkbox" id="src-5"> 紹介</label>
+        <label><input type="checkbox" id="src-6"> その他</label>
       </div>
       <div class="fields">
-        <label class="field"><span>提案したプラン</span><input id="a3-plan" type="text"></label>
+        <label class="field"><span>ご紹介者様のお名前</span><input id="src-ref" type="text"></label>
+        <label class="field"><span>詳細（見た投稿・広告の場所・検索した言葉 など）</span><input id="src-detail" type="text"></label>
+      </div>
+      <p class="guide-notes guide">
+        <span><b>深掘り</b>Instagram →「どの投稿をご覧になりましたか？」／ Google →「どんな言葉で検索されましたか？　決め手になったクチコミはありましたか？」／ 広告 →「どこで見かけましたか？」／ 紹介 →「どなたからのご紹介ですか？」</span>
+        <span><b>聞く理由</b>集客の効果を測るために、必ず1つ以上記録します。複数ある場合は、予約を決めた一番のきっかけに◎を付けます。紹介の場合は紹介者へのお礼にもつなげます。</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="step" id="motive">
+    <div class="step-head">
+      <span class="num">03</span><h2>ご来店の動機</h2><span class="who">フォーム項目</span><span class="time">1 min</span>
+    </div>
+    <div class="q">
+      <h3><span class="qn">3-1</span>ご来店の動機（複数回答可）<span class="req">必須</span></h3>
+      <p class="say guide">「数あるスタジオの中から、今回ご予約いただいた理由を教えてください。」</p>
+      <div class="opts">
+        <label><input type="checkbox" id="mot-1"> Instagramで見た</label>
+        <label><input type="checkbox" id="mot-2"> Google口コミで評価が高かった</label>
+        <label><input type="checkbox" id="mot-3"> 他スタジオ、治療院、整骨院、整体等に行ったが良くならなかった</label>
+        <label><input type="checkbox" id="mot-4"> 医療機関を受診したが良くならなかった</label>
+        <label><input type="checkbox" id="mot-5"> YouTubeや自分なりに頑張ったけど変わらなかった</label>
+        <label><input type="checkbox" id="mot-6"> その他</label>
+      </div>
+      <div class="fields">
+        <label class="field"><span>その他・お客様の言葉</span><input id="mot-other" type="text"></label>
+      </div>
+      <p class="guide-notes guide">
+        <span><b>深掘り</b>「良くならなかった」に印がある場合は「どこに、どのくらいの期間通われましたか？」「何が合わなかったと感じますか？」と聞きます。同じ不満を繰り返さない提案の材料になります。</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="step" id="concern">
+    <div class="step-head">
+      <span class="num">04</span><h2>現在のお悩み</h2><span class="who">フォーム項目＋深掘り</span><span class="time">5 min</span>
+    </div>
+    <p class="step-intro guide">このシートで一番時間をかける項目です。フォームのチェックを確認したあと、優先順位を3つ付けてもらい、1位のお悩みを深掘りします。</p>
+    <div class="q">
+      <h3><span class="qn">4-1</span>現在のお悩み（チェックを付ける）<span class="req">必須</span></h3>
+      <p class="say guide">「今、気になっているお悩みにチェックを付けていただいています。ほかにも気になるところはありますか？」</p>
+      <div class="group">
+        <span class="group-label">頭・顔まわり</span>
+        <div class="opts">
+          <label><input type="checkbox" id="p0-1"> 頭痛</label>
+          <label><input type="checkbox" id="p0-2"> 目の疲れ、目の奥の痛み</label>
+          <label><input type="checkbox" id="p0-3"> 顎の痛み</label>
+          <label><input type="checkbox" id="p0-4"> 歯の痛み</label>
+          <label><input type="checkbox" id="p0-5"> 顎関節症</label>
+          <label><input type="checkbox" id="p0-6"> 嗅覚異常</label>
+          <label><input type="checkbox" id="p0-7"> 味覚異常</label>
+        </div>
+      </div>
+      <div class="group">
+        <span class="group-label">首・肩・腕</span>
+        <div class="opts">
+          <label><input type="checkbox" id="p1-1"> 首の痛み</label>
+          <label><input type="checkbox" id="p1-2"> 肩こり</label>
+          <label><input type="checkbox" id="p1-3"> 肩の痛み</label>
+          <label><input type="checkbox" id="p1-4"> 肩関節周囲炎（四十肩、五十肩等）</label>
+          <label><input type="checkbox" id="p1-5"> 肘の痛み</label>
+          <label><input type="checkbox" id="p1-6"> 手首、手、手指の痛み</label>
+          <label><input type="checkbox" id="p1-7"> 手のしびれ、力が入らない</label>
+          <label><input type="checkbox" id="p1-8"> 腱鞘炎、ばね指</label>
+        </div>
+      </div>
+      <div class="group">
+        <span class="group-label">体幹・腰</span>
+        <div class="opts">
+          <label><input type="checkbox" id="p2-1"> お腹の痛み</label>
+          <label><input type="checkbox" id="p2-2"> 肋骨、脇腹の痛み</label>
+          <label><input type="checkbox" id="p2-3"> 背中の痛み</label>
+          <label><input type="checkbox" id="p2-4"> 腰痛</label>
+          <label><input type="checkbox" id="p2-5"> 殿部の痛み</label>
+        </div>
+      </div>
+      <div class="group">
+        <span class="group-label">脚・足</span>
+        <div class="opts">
+          <label><input type="checkbox" id="p3-1"> 殿部、足のしびれ</label>
+          <label><input type="checkbox" id="p3-2"> 膝痛</label>
+          <label><input type="checkbox" id="p3-3"> 足、足指の痛み</label>
+          <label><input type="checkbox" id="p3-4"> 踵の痛み</label>
+          <label><input type="checkbox" id="p3-5"> 扁平足</label>
+        </div>
+      </div>
+      <div class="group">
+        <span class="group-label">姿勢・骨格</span>
+        <div class="opts">
+          <label><input type="checkbox" id="p4-1"> 巻き肩、猫背</label>
+          <label><input type="checkbox" id="p4-2"> 姿勢が悪い</label>
+          <label><input type="checkbox" id="p4-3"> 肋骨が開いている</label>
+          <label><input type="checkbox" id="p4-4"> O脚、X脚</label>
+          <label><input type="checkbox" id="p4-5"> ストレートネック</label>
+          <label><input type="checkbox" id="p4-6"> くびれができない</label>
+          <label><input type="checkbox" id="p4-7"> 側弯</label>
+          <label><input type="checkbox" id="p4-8"> 足の長さが違う</label>
+          <label><input type="checkbox" id="p4-9"> 骨盤が歪んでいる</label>
+        </div>
+      </div>
+      <div class="group">
+        <span class="group-label">顔の見た目</span>
+        <div class="opts">
+          <label><input type="checkbox" id="p5-1"> エラが張っている</label>
+          <label><input type="checkbox" id="p5-2"> 顔が歪んでいる</label>
+          <label><input type="checkbox" id="p5-3"> 顔がたるんでいる</label>
+          <label><input type="checkbox" id="p5-4"> 顔がでかい</label>
+        </div>
+      </div>
+      <div class="group">
+        <span class="group-label">体質・その他</span>
+        <div class="opts">
+          <label><input type="checkbox" id="p6-1"> 冷え性</label>
+          <label><input type="checkbox" id="p6-2"> 体温が低い</label>
+          <label><input type="checkbox" id="p6-3"> 便秘</label>
+          <label><input type="checkbox" id="p6-4"> 細絡（さいらく）</label>
+          <label><input type="checkbox" id="p6-5"> 静脈瘤</label>
+          <label><input type="checkbox" id="p6-6"> 女性特有のトラブル（生理・PMS・妊活、不妊・更年期、女性器疾患など）</label>
+          <label><input type="checkbox" id="p6-7"> 性病</label>
+          <label><input type="checkbox" id="p6-8"> その他</label>
+        </div>
+      </div>
+      <div class="fields">
+        <label class="field"><span>その他・お客様の言葉のまま</span><input id="p-other" type="text"></label>
+      </div>
+      <p class="guide-notes guide">
+        <span><b>話し方</b>「ほかにはありますか？」をもう一度聞くと、本当のお悩みが後から出てくることがよくあります。「性病」「女性特有のトラブル」はチェックの有無だけ確認し、内容は無理に聞きません。</span>
+      </p>
+    </div>
+    <div class="q">
+      <h3><span class="qn">4-2</span>お悩みの優先順位 TOP3 とその理由<span class="req">必須</span></h3>
+      <p class="say guide">「チェックしていただいた中で、特に良くしたいものを3つ選んで順番を付けるとしたら、どうなりますか？　それぞれ、なぜそれを良くしたいのかも教えてください。」</p>
+      <div class="rank">
+        <div class="rank-row">
+          <span class="rank-n">1</span>
+          <label class="field"><span>お悩み</span><input id="r1" type="text"></label>
+          <label class="field"><span>理由（なぜ良くしたいか・困っている場面）</span><textarea id="r1r" rows="2"></textarea></label>
+        </div>
+        <div class="rank-row">
+          <span class="rank-n">2</span>
+          <label class="field"><span>お悩み</span><input id="r2" type="text"></label>
+          <label class="field"><span>理由（なぜ良くしたいか・困っている場面）</span><textarea id="r2r" rows="2"></textarea></label>
+        </div>
+        <div class="rank-row">
+          <span class="rank-n">3</span>
+          <label class="field"><span>お悩み</span><input id="r3" type="text"></label>
+          <label class="field"><span>理由（なぜ良くしたいか・困っている場面）</span><textarea id="r3r" rows="2"></textarea></label>
+        </div>
+      </div>
+      <p class="guide-notes guide">
+        <span><b>深掘り</b>「どうしてそれが1番なんですか？」「それで一番困るのはどんな時ですか？」</span>
+        <span><b>記入のコツ</b>理由の欄には、お客様の言葉をそのまま書きます。体験後のご提案（10-3）で、この言葉を使います。</span>
+      </p>
+    </div>
+    <div class="q">
+      <h3><span class="qn">4-3</span>1位のお悩みを深掘り<span class="req">必須</span></h3>
+      <p class="say guide">「1番のお悩みについて、もう少し詳しく聞かせてください。」</p>
+      <div class="dig">
+        <label class="field"><span class="dq">いつから？</span><span class="ds guide">「それはいつ頃から気になっていますか？　何かきっかけはありましたか？」</span><input id="d-since" type="text"></label>
+        <label class="field"><span class="dq">どんな時に困る？</span><span class="ds guide">「どんな時に一番気になりますか？　お仕事中、朝起きた時、鏡を見た時など。」</span><input id="d-scene" type="text"></label>
+        <label class="field"><span class="dq">どのくらいつらい？</span><span class="ds guide">「一番つらい時を10として、今はどのくらいですか？」（痛みの場合は下の0〜10に記録）</span><input id="d-level" type="text"></label>
+        <label class="field"><span class="dq">このままだと？</span><span class="ds guide">「このまま何もしないと、どうなりそうで心配ですか？」</span><input id="d-worry" type="text"></label>
+        <label class="field"><span class="dq">なぜ今？</span><span class="ds guide">「今このタイミングで始めようと思われたのはなぜですか？」</span><input id="d-now" type="text"></label>
+      </div>
+      <div class="field"><span>痛みの強さ（痛みのお悩みの場合）</span>
+        <div class="scale" role="radiogroup" aria-label="痛みの強さ（痛みのお悩みの場合） 0から10"><label><input type="radio" name="pain" id="pa0">0</label><label><input type="radio" name="pain" id="pa1">1</label><label><input type="radio" name="pain" id="pa2">2</label><label><input type="radio" name="pain" id="pa3">3</label><label><input type="radio" name="pain" id="pa4">4</label><label><input type="radio" name="pain" id="pa5">5</label><label><input type="radio" name="pain" id="pa6">6</label><label><input type="radio" name="pain" id="pa7">7</label><label><input type="radio" name="pain" id="pa8">8</label><label><input type="radio" name="pain" id="pa9">9</label><label><input type="radio" name="pain" id="pa10">10</label></div>
+        <span class="scale-legend">0 = 痛みなし　10 = 想像できる最大の痛み</span>
+      </div>
+      <p class="guide-notes guide">
+        <span><b>ポイント</b>相づちと「それは大変でしたね」などの共感をはさみ、尋問のようにならないようにします。時間がなければ「いつから」「どんな時に困る」の2つを優先します。</span>
+      </p>
+    </div>
+    <div class="flag guide">
+      <h3>医療機関の確認をすすめるサイン</h3>
+      <ul>
+        <li>「手のしびれ、力が入らない」「殿部、足のしびれ」があり、最近強くなっている・範囲が広がっている</li>
+        <li>痛みが 7 以上、安静にしていても痛い、夜間に痛む</li>
+        <li>原因の分からない頭痛、お腹の痛み、嗅覚・味覚の異常が続いている</li>
+      </ul>
+      <p style="margin-top:6px">該当する場合は、受診状況（05）と服薬（07）を必ず確認し、迷ったら責任者に相談してください。</p>
+    </div>
+  </section>
+
+  <section class="step" id="tried">
+    <div class="step-head">
+      <span class="num">05</span><h2>解決のために行ったこと</h2><span class="who">フォーム項目</span><span class="time">1 min</span>
+    </div>
+    <div class="q">
+      <h3><span class="qn">5-1</span>上記のトラブルを解決するために行ったこと<span class="req">必須</span></h3>
+      <p class="say guide">「そのお悩みを解決するために、これまでに何か試したことはありますか？」</p>
+      <div class="opts">
+        <label><input type="checkbox" id="tr-1"> 医療機関を受診した</label>
+        <label><input type="checkbox" id="tr-2"> 他サロン、スタジオに行った</label>
+        <label><input type="checkbox" id="tr-3"> YouTubeのトレーニングやケアを頑張った</label>
+        <label><input type="checkbox" id="tr-4"> 市販薬を使用した</label>
+        <label><input type="checkbox" id="tr-5"> 生活習慣を変えた</label>
+        <label><input type="checkbox" id="tr-6"> 特に何もしていない</label>
+        <label><input type="checkbox" id="tr-7"> その他</label>
+      </div>
+      <div class="fields">
+        <label class="field"><span>やってみてどうだったか・続かなかった理由</span><input id="tr-result" type="text"></label>
+        <label class="field"><span>受診した場合：診断名・医師からの指示</span><input id="tr-dx" type="text"></label>
+      </div>
+      <p class="guide-notes guide">
+        <span><b>深掘り</b>「その時はどうでしたか？」「どのくらい続けられましたか？」「やめてしまった理由は何でしたか？」</span>
+        <span><b>聞く理由</b>続かなかった理由（時間・場所・一人だと続かない など）が分かると、スタジオで続けるメリットを具体的に伝えられます。</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="step" id="goal">
+    <div class="step-head">
+      <span class="num">06</span><h2>なりたい姿・大切な予定</h2><span class="who">フォーム項目</span><span class="time">2 min</span>
+    </div>
+    <div class="q">
+      <h3><span class="qn">6-1</span>なりたい姿、理想の状態、目標<span class="req">必須</span></h3>
+      <p class="say guide">「お悩みが良くなったら、どんなことをしたいですか？　3か月後、どうなっていたら嬉しいですか？」</p>
+      <div class="fields">
+        <label class="field"><span>お客様の言葉のまま</span><textarea id="g-ideal" rows="2"></textarea></label>
+      </div>
+      <p class="guide-notes guide">
+        <span><b>深掘り</b>「姿勢を良くしたい」など抽象的な答えのときは「良くなったと感じるのは、どんな場面ですか？」と具体的な場面まで聞きます。</span>
+      </p>
+    </div>
+    <div class="q">
+      <h3><span class="qn">6-2</span>今後の大切なご予定</h3>
+      <p class="say guide">「今後、大切なご予定はありますか？　結婚式や旅行、撮影など、その日までにこうなっていたいというものがあれば教えてください。」</p>
+      <div class="fields">
+        <label class="field"><span>ご予定の内容</span><input id="g-event" type="text"></label>
+        <label class="field"><span>日付</span><input id="g-date" type="text" placeholder="　年　月　日"></label>
+      </div>
+      <p class="guide-notes guide">
+        <span><b>聞く理由</b>期限がある目標は、通う頻度と期間を提案する根拠になります。</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="step" id="medical">
+    <div class="step-head">
+      <span class="num">07</span><h2>服薬・事前に伝えたいこと</h2><span class="who">フォーム項目＋安全確認</span><span class="time">2 min</span>
+    </div>
+    <p class="step-intro guide">安全に体験してもらうための項目です。フォームが空欄でも、下の確認は必ず口頭で行います。</p>
+    <div class="q">
+      <h3><span class="qn">7-1</span>服薬<span class="req">必須</span></h3>
+      <p class="say guide">「今飲んでいるお薬はありますか？　お薬手帳や最近の検査結果があれば見せてください。」</p>
+      <div class="opts">
+        <label><input type="checkbox" id="med-1"> なし</label>
+        <label><input type="checkbox" id="med-2"> あり（お薬手帳を確認）</label>
+        <label><input type="checkbox" id="med-3"> 検査結果を持参</label>
+      </div>
+      <div class="fields">
+        <label class="field"><span>お薬の名前・何のためのお薬か</span><input id="med-detail" type="text"></label>
+      </div>
+      <p class="guide-notes guide">
+        <span><b>聞く理由</b>血圧の薬・血液をサラサラにする薬・痛み止めを飲んでいる方は、頭を下げる姿勢や強い負荷、痛みの感じ方に注意が必要です。</span>
+      </p>
+    </div>
+    <div class="q">
+      <h3><span class="qn">7-2</span>レッスン受講に関して事前に伝えたいこと</h3>
+      <p class="say guide">「ほかに、レッスンの前に伝えておきたいことはありますか？　ケガや持病、妊娠中・授乳中かどうかなども教えてください。」</p>
+      <div class="opts">
+        <label><input type="checkbox" id="pre-1"> 特になし</label>
+        <label><input type="checkbox" id="pre-2"> ケガ・手術歴</label>
+        <label><input type="checkbox" id="pre-3"> 持病</label>
+        <label><input type="checkbox" id="pre-4"> 妊娠中（　週）</label>
+        <label><input type="checkbox" id="pre-5"> 授乳中・産後（　か月）</label>
+        <label><input type="checkbox" id="pre-6"> 子ども連れ</label>
+        <label><input type="checkbox" id="pre-7"> スキンケアの相談</label>
+      </div>
+      <div class="fields">
+        <label class="field"><span>詳細</span><textarea id="pre-detail" rows="2"></textarea></label>
+      </div>
+      <div class="field"><span>今日の体調</span>
+      <div class="opts">
+        <label><input type="checkbox" id="cond-1"> 良い</label>
+        <label><input type="checkbox" id="cond-2"> ふつう</label>
+        <label><input type="checkbox" id="cond-3"> 疲れ・寝不足</label>
+        <label><input type="checkbox" id="cond-4"> 直前（1時間以内）に食事</label>
+        <label><input type="checkbox" id="cond-5"> 風邪気味・発熱</label>
+      </div>
+      </div>
+    </div>
+    <div class="flag guide">
+      <h3>体験を見合わせる・医師の許可を確認するサイン</h3>
+      <ul>
+        <li>胸の痛み、息切れ、めまい、発熱がある（当日は体験を中止し、日程を変更）</li>
+        <li>医師から運動を止められている、治療中で運動してよいか確認していない</li>
+        <li>妊娠中（特に初期）、産後の健診前（目安：産後6〜8週以内）</li>
+        <li>コントロールされていない高血圧・心疾患、骨粗鬆症（背骨を丸める・ひねる負荷は避ける）</li>
+      </ul>
+      <p style="margin-top:6px">迷ったら一人で判断せず、責任者に相談してください。体験を行う場合も、マニュアル各種目の「注意・禁忌」を避けたメニューにします。</p>
+    </div>
+  </section>
+
+  <section class="step" id="consent">
+    <div class="step-head">
+      <span class="num">08</span><h2>スタジオについて（同意）</h2><span class="who">フォーム項目</span><span class="time">1 min</span>
+    </div>
+    <p class="step-intro guide">読み上げて、両方に同意をいただいてから体験に進みます。</p>
+    <div class="q">
+      <h3><span class="qn">8-1</span>会員規約への同意<span class="req">必須</span></h3>
+      <p class="say guide">「当スタジオは会員制です。会員規約は公式LINEでご覧いただけます。ご確認いただけましたか？」</p>
+      <div class="opts">
+        <label><input type="checkbox" id="c1-1"> 公式LINEを参照</label>
+        <label><input type="checkbox" id="c1-2"> 同意しました</label>
+      </div>
+    </div>
+    <div class="q">
+      <h3><span class="qn">8-2</span>ご提案と来店頻度について<span class="req">必須</span></h3>
+      <p class="say guide">「お客様のお悩みを解決するために、スタジオから適切なメニューやケアをご提案します。また、問題を解決するために、決まった頻度でのご来店をおすすめしています。」</p>
+      <div class="opts">
+        <label><input type="checkbox" id="c2-1"> 同意しました</label>
+      </div>
+      <div class="fields">
+        <label class="field"><span>日付</span><input id="c-date" type="text" placeholder="　年　月　日"></label>
+        <label class="field"><span>ご署名</span><input id="c-sign" type="text"></label>
+      </div>
+    </div>
+  </section>
+
+  <section class="step" id="check">
+    <div class="step-head">
+      <span class="num">09</span><h2>姿勢・動きのチェック</h2><span class="who">スタッフが記入</span><span class="time">5 min</span>
+    </div>
+    <p class="step-intro guide">「今の体の状態を一緒に見てみましょう」と声をかけ、正面と横から立ち姿を見ます。04で挙がったお悩みに関係する部分を中心に見て、良い点から先に伝えます。</p>
+    <div class="q">
+      <h3><span class="qn">9-1</span>立ち姿と簡単な動き</h3>
+      <div class="field"><span>立位（横から）</span>
+      <div class="opts">
+        <label><input type="checkbox" id="cs-1"> 頭が前に出ている（ストレートネック傾向）</label>
+        <label><input type="checkbox" id="cs-2"> 巻き肩・猫背</label>
+        <label><input type="checkbox" id="cs-3"> 反り腰</label>
+        <label><input type="checkbox" id="cs-4"> 肋骨が開いている</label>
+        <label><input type="checkbox" id="cs-5"> 膝が伸びきっている</label>
+      </div>
+      </div>
+      <div class="field"><span>立位（正面・後ろから）</span>
+      <div class="opts">
+        <label><input type="checkbox" id="cf-1"> 肩の高さに左右差（高いのは 左・右）</label>
+        <label><input type="checkbox" id="cf-2"> 骨盤の高さに左右差</label>
+        <label><input type="checkbox" id="cf-3"> 体重が片脚に寄る</label>
+        <label><input type="checkbox" id="cf-4"> O脚傾向</label>
+        <label><input type="checkbox" id="cf-5"> X脚傾向</label>
+        <label><input type="checkbox" id="cf-6"> 足のアーチが低い</label>
+      </div>
+      </div>
+      <div class="field"><span>簡単な動き（痛みがある方向は行わない）</span>
+      <div class="opts">
+        <label><input type="checkbox" id="cm-1"> ロールダウンで背骨が分節的に動く</label>
+        <label><input type="checkbox" id="cm-2"> 前屈で指先が床に届く</label>
+        <label><input type="checkbox" id="cm-3"> 腕を上げると肩がすくむ</label>
+        <label><input type="checkbox" id="cm-4"> 片脚立ち10秒が不安定（左・右）</label>
+        <label><input type="checkbox" id="cm-5"> 呼吸で肋骨が横に広がりにくい</label>
+      </div>
+      </div>
+      <div class="fields">
+        <label class="field"><span>気づいたこと・お客様に伝えたこと</span><textarea id="c-memo" rows="2"></textarea></label>
+      </div>
+    </div>
+  </section>
+
+  <section class="step" id="after">
+    <div class="step-head">
+      <span class="num">10</span><h2>体験後の振り返り・ご提案</h2><span class="who">スタッフが質問</span><span class="time">10 min</span>
+    </div>
+    <p class="step-intro guide">着替える前、体の感覚が残っているうちに行います。4-2で聞いた「1位のお悩みと理由」と、6-1の「なりたい姿」につなげて話すのがコツです。</p>
+    <div class="q">
+      <h3><span class="qn">10-1</span>感想<span class="req">必須</span></h3>
+      <p class="say guide">「お疲れさまでした。やってみて、いかがでしたか？　一番印象に残った動きはどれでしたか？」</p>
+      <div class="fields">
+        <label class="field"><span>お客様の言葉</span><textarea id="a1" rows="2"></textarea></label>
+      </div>
+    </div>
+    <div class="q">
+      <h3><span class="qn">10-2</span>体の変化<span class="req">必須</span></h3>
+      <p class="say guide">「最初に立っていただいた時と比べて、今、立ってみてどうですか？　気になっていた〇〇の感じに違いはありますか？」</p>
+      <div class="opts">
+        <label><input type="checkbox" id="a2-1"> 体が軽い</label>
+        <label><input type="checkbox" id="a2-2"> 背が伸びた感じ</label>
+        <label><input type="checkbox" id="a2-3"> 痛み・こりが楽になった</label>
+        <label><input type="checkbox" id="a2-4"> 呼吸がしやすい</label>
+        <label><input type="checkbox" id="a2-5"> きつかった・難しかった</label>
+      </div>
+      <div class="field"><span>痛みの強さ（体験後・4-3と比較）</span>
+        <div class="scale" role="radiogroup" aria-label="痛みの強さ（体験後・4-3と比較） 0から10"><label><input type="radio" name="pain-after" id="ap0">0</label><label><input type="radio" name="pain-after" id="ap1">1</label><label><input type="radio" name="pain-after" id="ap2">2</label><label><input type="radio" name="pain-after" id="ap3">3</label><label><input type="radio" name="pain-after" id="ap4">4</label><label><input type="radio" name="pain-after" id="ap5">5</label><label><input type="radio" name="pain-after" id="ap6">6</label><label><input type="radio" name="pain-after" id="ap7">7</label><label><input type="radio" name="pain-after" id="ap8">8</label><label><input type="radio" name="pain-after" id="ap9">9</label><label><input type="radio" name="pain-after" id="ap10">10</label></div>
+        <span class="scale-legend">0 = 痛みなし　10 = 想像できる最大の痛み</span>
+      </div>
+      <p class="guide-notes guide">
+        <span><b>ポイント</b>体験前に撮った写真があれば、もう一度撮って並べて見せます。痛みが増えた場合は種目と状況を記録し、責任者に共有します。</span>
+      </p>
+    </div>
+    <div class="q">
+      <h3><span class="qn">10-3</span>続けた場合のイメージとご提案<span class="req">必須</span></h3>
+      <p class="say guide">「最初に、1番のお悩みは『（4-2の1位）』で、理由は『（4-2の理由）』とおっしゃっていましたよね。今日の〇〇の動きは、ちょうどそこに効いてくる動きです。（6-2の予定）までに『（6-1のなりたい姿）』を目指すなら、週〇回のペースをおすすめします。」</p>
+      <p class="guide-notes guide">
+        <span><b>ポイント</b>提案するプランは1つに絞り、1-2の移動時間と通える時間帯から無理のない頻度にします。その場で決められない方には、検討期間と次の連絡方法を確認します。</span>
+      </p>
+      <div class="field"><span>通える時間帯</span>
+      <div class="opts">
+        <label><input type="checkbox" id="a3t-1"> 平日朝</label>
+        <label><input type="checkbox" id="a3t-2"> 平日昼</label>
+        <label><input type="checkbox" id="a3t-3"> 平日夜</label>
+        <label><input type="checkbox" id="a3t-4"> 土日祝</label>
+      </div>
+      </div>
+      <div class="opts">
+        <label><input type="checkbox" id="a3-1"> 入会</label>
+        <label><input type="checkbox" id="a3-2"> 検討中</label>
+        <label><input type="checkbox" id="a3-3"> 見送り</label>
+      </div>
+      <div class="fields">
+        <label class="field"><span>提案したプラン・頻度</span><input id="a3-plan" type="text"></label>
         <label class="field"><span>次回予約・連絡予定日</span><input id="a3-next" type="text"></label>
         <label class="field"><span>検討・見送りの理由</span><input id="a3-reason" type="text"></label>
       </div>
     </div>
   </section>
 
-  <!-- ===== Staff memo ===== -->
   <section class="step" id="memo">
     <div class="step-head">
       <span class="num">—</span><h2>スタッフ引き継ぎメモ</h2><span class="who">スタッフが記入</span>
     </div>
     <div class="q">
+      <h3>担当・実施内容</h3>
       <div class="fields">
         <label class="field"><span>担当インストラクター</span><input id="m-staff" type="text"></label>
         <label class="field"><span>体験日</span><input id="m-date" type="text"></label>
       </div>
-      <label class="field"><span>実施した種目・スプリング（マニュアルの番号でも可：例 チェア01 / リフォーマー04）</span><textarea id="m-ex" rows="2"></textarea></label>
-      <label class="field"><span>避けた動き・注意点</span><input id="m-avoid" type="text"></label>
-      <label class="field"><span>次回のレッスンで取り入れたいこと</span><input id="m-next" type="text"></label>
+      <div class="fields">
+        <label class="field"><span>実施した種目・スプリング（マニュアルの番号でも可：例 チェア01 / リフォーマー04）</span><textarea id="m-ex" rows="2"></textarea></label>
+      </div>
+      <div class="fields">
+        <label class="field"><span>避けた動き・注意点</span><input id="m-avoid" type="text"></label>
+        <label class="field"><span>次回のレッスンで取り入れたいこと</span><input id="m-next" type="text"></label>
+      </div>
     </div>
   </section>
 
